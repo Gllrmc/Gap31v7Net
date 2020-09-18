@@ -82,6 +82,9 @@ namespace Sistema.Datos
         public DbSet<Post2date> Post2dates { get; set; }
         public DbSet<Garantia2date> Garantia2dates { get; set; }
         public DbSet<Limbo> Limbos { get; set; }
+        public DbSet<Concepto> Conceptos { get; set; }
+        public DbSet<Over> Overs { get; set; }
+        public DbSet<Factu> Factus { get; set; }
 
         public DbContextSistema(DbContextOptions<DbContextSistema> options) : base(options)
         {
@@ -143,6 +146,9 @@ namespace Sistema.Datos
             modelBuilder.ApplyConfiguration(new Post2dateMap());
             modelBuilder.ApplyConfiguration(new Garantia2dateMap());
             modelBuilder.ApplyConfiguration(new LimboMap());
+            modelBuilder.ApplyConfiguration(new ConceptoMap());
+            modelBuilder.ApplyConfiguration(new OverMap());
+            modelBuilder.ApplyConfiguration(new FactuMap());
         }
 
     }

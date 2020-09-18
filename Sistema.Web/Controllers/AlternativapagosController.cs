@@ -135,6 +135,9 @@ namespace Sistema.Web.Controllers
                 orden = a.orden,
                 beneficiario = a.beneficiario,
                 cuitcuil = a.cuitcuil,
+                banco = a.banco,
+                cbu = a.cbu,
+                alias = a.alias,
                 activo = a.activo
             });
         }

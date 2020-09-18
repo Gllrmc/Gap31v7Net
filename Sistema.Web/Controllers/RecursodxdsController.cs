@@ -225,11 +225,8 @@ namespace Sistema.Web.Controllers
                 return BadRequest(ModelState);
             }
             var fechaHora = DateTime.Now;
-            var numorden = _context.Recursodxds
-                .Where(p => p.idproyecto == model.idproyecto && p.idcrew == model.idcrew)
-                .Select(p => p.idcont)
-                .DefaultIfEmpty(0)
-                .Max();
+            var numorden = _context.Garantias.Where(p => p.idproyecto == model.idproyecto).Max(x => (int?)x.numorden) ?? 0;
+
             Recursodxd recursodxd = new Recursodxd
             {
                 idproyecto = model.idproyecto,

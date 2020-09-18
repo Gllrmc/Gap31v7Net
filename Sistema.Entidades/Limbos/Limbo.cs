@@ -131,5 +131,7 @@ namespace Sistema.Entidades.Limbos
         public Estado estados { get; set; }
         public Resultado resultados { get; set; }
         public Posicion posiciones { get; set; }
+        public ICollection<Over> overs { get; set; }
+        public ICollection<Factu> factus { get; set; }
     }
 }

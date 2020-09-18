@@ -286,11 +286,8 @@ namespace Sistema.Web.Controllers
                 return BadRequest(ModelState);
             }
             var fechaHora = DateTime.Now;
-            int numpedido = _context.Pedidosfondo
-                .Where(p => p.idproyecto == model.idproyecto)
-                .Select(p => p.numpedido)
-                .DefaultIfEmpty(0)
-                .Max();
+            var numpedido = _context.Pedidosfondo.Where(p => p.idproyecto == model.idproyecto).Max(x => (int?)x.numpedido) ?? 0;
+
             Pedidofondo pedidofondo = new Pedidofondo
             {
 

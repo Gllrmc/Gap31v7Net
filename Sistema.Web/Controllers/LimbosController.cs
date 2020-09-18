@@ -739,9 +739,8 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.parametro == "LIMBOLASTNUMBER")
                 .Select(p => p.valor)
                 .FirstOrDefault());
-            var numorden = _context.Limbos
-                .Select(p => p.orden)
-                .Max();
+            var numorden = _context.Limbos.Max(x => (int?)x.orden) ?? 0;
+
             numorden = initorden > numorden ? initorden : numorden;
             Limbo limbo = new Limbo
             {

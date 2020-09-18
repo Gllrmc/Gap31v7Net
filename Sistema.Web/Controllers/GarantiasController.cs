@@ -396,15 +396,12 @@ namespace Sistema.Web.Controllers
             }
 
             var fechaHora = DateTime.Now;
-            var numorden = _context.Garantias
-                .Where(p => p.idproyecto == model.idproyecto)
-                .Select(p => p.numorden)
-                .DefaultIfEmpty(0)
-                .Max();
+            var numorden = _context.Garantias.Where(p => p.idproyecto == model.idproyecto).Max(x => (int?)x.numorden) ?? 0;
+
             Garantia garantia = new Garantia
             {
                 idproyecto = model.idproyecto,
-                numorden = numorden + 1,
+                numorden = (int) numorden + 1,
                 idrubro = model.idrubro,
                 idproveedor = model.idproveedor,
                 importe = model.importe,
