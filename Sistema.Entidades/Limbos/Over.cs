@@ -9,18 +9,21 @@ namespace Sistema.Entidades.Limbos
     public class Over
     {
         [Key]
+        [Required]
         public int idover { get; set; }
         [Required]
-        [ForeignKey("Limbo")]
+        [ForeignKey("limbo")]
         public int idlimbo { get; set; }
         [Required]
+        public int numover { get; set; }
+        [Required]
         [Column(TypeName = "date")]
-        public DateTime fecha { get; set; }
+        public DateTime fecover { get; set; }
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal importe { get; set; }
+        public decimal impover { get; set; }
         public string pdfover { get; set; }
-        public string observacion { get; set; }
+        public string nota { get; set; }
         [Required]
         public int iduseralta { get; set; }
         [Required]

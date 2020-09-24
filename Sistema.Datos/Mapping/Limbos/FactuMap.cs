@@ -13,9 +13,10 @@ namespace Sistema.Datos.Mapping.Limbos
         {
             builder.ToTable("factus")
                 .HasKey(a => a.idfactu);
-            builder.HasOne(a => a.limbo)
+            builder.HasIndex(p => new { p.idlimbo, p.numfactu })
+                .IsUnique(true); builder.HasOne(a => a.limbo)
                 .WithMany(d => d.factus)
-                .HasForeignKey(a => a.idfactu);
+                .HasForeignKey(a => a.idlimbo);
         }
     }
 }

@@ -13,9 +13,11 @@ namespace Sistema.Datos.Mapping.Limbos
         {
             builder.ToTable("overs")
                 .HasKey(a => a.idover);
+            builder.HasIndex(p => new { p.idlimbo, p.numover })
+                .IsUnique(true);
             builder.HasOne(a => a.limbo)
                 .WithMany(d => d.overs)
-                .HasForeignKey(a => a.idover);
+                .HasForeignKey(a => a.idlimbo);
         }
     }
 }

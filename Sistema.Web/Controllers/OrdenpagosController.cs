@@ -34,7 +34,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
                 .Include(p => p.alternativapago)
-                .Where(p => p.proyecto.activo == true)
+                .Where(p => p.proyecto.activo == true && p.activo == true)
                 .OrderBy(p => p.idordenpago)
                 .AsNoTracking()
                 .ToListAsync();
@@ -86,7 +86,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
                 .Include(p => p.alternativapago)
-                .Where(p => p.proyecto.activo == true && p.pagado == false)
+                .Where(p => p.proyecto.activo == true && p.activo == true && p.pagado == false)
                 .OrderBy(p => p.fecpago)
                 .AsNoTracking()
                 .ToListAsync();
@@ -148,7 +148,7 @@ namespace Sistema.Web.Controllers
 	                    LEFT JOIN dbo.subitems e ON c.idsubitem = e.idsubitem
 	                    LEFT JOIN dbo.proveedores f ON c.idproveedor = f.idproveedor
 	                    LEFT JOIN dbo.alternativapagos g ON c.idalternativapago = g.idalternativapago
-                    WHERE c.activo = 1 and c.pagado = 0 and idusuario = {id}
+                    WHERE b.activo = 1 and c.activo = 1 and c.pagado = 0 and idusuario = {id}
                 ")
                 .IgnoreQueryFilters()
                 .AsNoTracking()
@@ -552,6 +552,35 @@ WHERE a.activo = 1 and b.idproyecto = {id}
 
             return Ok();
         }
+
+        // DELETE: api/Ordenpagos/Eliminar/1
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> Eliminar([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var ordenpago = await _context.Ordenpagos.FindAsync(id);
+            if (ordenpago == null)
+            {
+                return NotFound();
+            }
+
+            _context.Ordenpagos.Remove(ordenpago);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            return Ok(ordenpago);
+        }
+
 
 
         // PUT: api/Ordenpagos/Desactivar/1

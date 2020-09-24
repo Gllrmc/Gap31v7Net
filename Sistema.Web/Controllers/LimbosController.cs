@@ -43,6 +43,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.productoras)
                 .Include(p => p.clientes)
                 .Where(p => p.idresultado == null)
+                .OrderByDescending(p => p.orden)
                 .ToListAsync();
 
             return Limbo.Select(r => new LimboViewModel
@@ -129,6 +130,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.productoras)
                 .Include(p => p.clientes)
                 .Where(p => p.idresultado == null)
+                .OrderByDescending(p => p.orden)
                 .ToListAsync();
 
             return Limbo.Select(r => new LimboViewModel

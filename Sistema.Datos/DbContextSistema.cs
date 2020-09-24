@@ -2,6 +2,7 @@
 using Sistema.Datos.Mapping.Daybyday;
 using Sistema.Datos.Mapping.Fondos;
 using Sistema.Datos.Mapping.Garantias;
+using Sistema.Datos.Mapping.Gastos;
 using Sistema.Datos.Mapping.Jerarquia;
 using Sistema.Datos.Mapping.Limbos;
 using Sistema.Datos.Mapping.Maestros;
@@ -13,6 +14,7 @@ using Sistema.Datos.Mapping.Usuarios;
 using Sistema.Entidades.Daybyday;
 using Sistema.Entidades.Fondos;
 using Sistema.Entidades.Garantias;
+using Sistema.Entidades.Gastos;
 using Sistema.Entidades.Jerarquia;
 using Sistema.Entidades.Limbos;
 using Sistema.Entidades.Maestros;
@@ -85,6 +87,7 @@ namespace Sistema.Datos
         public DbSet<Concepto> Conceptos { get; set; }
         public DbSet<Over> Overs { get; set; }
         public DbSet<Factu> Factus { get; set; }
+        public DbSet<Gasto> Gastos { get; set; }
 
         public DbContextSistema(DbContextOptions<DbContextSistema> options) : base(options)
         {
@@ -149,6 +152,7 @@ namespace Sistema.Datos
             modelBuilder.ApplyConfiguration(new ConceptoMap());
             modelBuilder.ApplyConfiguration(new OverMap());
             modelBuilder.ApplyConfiguration(new FactuMap());
+            modelBuilder.ApplyConfiguration(new GastoMap());
         }
 
     }

@@ -11,8 +11,10 @@ namespace Sistema.Entidades.Limbos
         [Key]
         public int idfactu { get; set; }
         [Required]
-        [ForeignKey("Limbo")]
+        [ForeignKey("limbo")]
         public int idlimbo { get; set; }
+        [Required]
+        public int numfactu { get; set; }
         [Required]
         [Column(TypeName = "date")]
         public DateTime feccomprobante { get; set; }
@@ -22,8 +24,8 @@ namespace Sistema.Entidades.Limbos
         public string numcomprobante { get; set; }
         [Required]
         [Column(TypeName = "decimal(18, 2)")]
-        public decimal importe { get; set; }
-        public string observacion { get; set; }
+        public decimal impfactu { get; set; }
+        public string nota { get; set; }
         [Required]
         public int iduseralta { get; set; }
         [Required]

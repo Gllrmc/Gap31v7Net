@@ -1,4 +1,5 @@
-﻿using Sistema.Entidades.Limbos;
+﻿using Sistema.Entidades.Gastos;
+using Sistema.Entidades.Limbos;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,11 +10,13 @@ namespace Sistema.Entidades.Maestros
     public class Concepto
     {
         [Key]
+        [Required]
         public int idconcepto { get; set; }
         [Required]
         public string concepto { get; set; }
         [Required]
         public string color { get; set; }
+        public string texto { get; set; }
         public string cuentagcom { get; set; }
         [Required]
         public int iduseralta { get; set; }
@@ -25,5 +28,6 @@ namespace Sistema.Entidades.Maestros
         public DateTime fecumod { get; set; }
         [Required]
         public bool activo { get; set; }
+        public ICollection<Gasto> gastos { get; set; }
     }
 }
