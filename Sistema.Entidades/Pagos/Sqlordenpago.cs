@@ -20,8 +20,14 @@ namespace Sistema.Entidades.Pagos
         public string subitemes { get; set; }
         public int idproveedor { get; set; }
         public string razonsocial { get; set; }
+        public string telefono { get; set; }
+        public string email { get; set; }
         public int idalternativapago { get; set; }
         public string alternativapago { get; set; }
+        public string banco { get; set; }
+        public string numcuenta { get; set; }
+        public string cbu { get; set; }
+        public string alias { get; set; }
         public DateTime feccomprobante { get; set; }
         public string tipocomprobante { get; set; }
         public string numcomprobante { get; set; }
