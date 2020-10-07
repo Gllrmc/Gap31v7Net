@@ -27,6 +27,9 @@ namespace Sistema.Datos.Mapping.Pagos
             builder.HasOne(a => a.alternativapago)
                 .WithMany(d => d.ordenpagos)
                 .HasForeignKey(a => a.idalternativapago);
+            builder.HasOne(a => a.forpago)
+                .WithMany(d => d.ordenpagos)
+                .HasForeignKey(a => a.idforpago);
         }
     }
 }

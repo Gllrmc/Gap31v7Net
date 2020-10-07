@@ -30,6 +30,8 @@ namespace Sistema.Entidades.Pagos
         [Column(TypeName = "decimal(18, 2)")]
         public decimal imptotal { get; set; }
         public DateTime fecpago { get; set; }
+        public int idforpago { get; set; }
+        public string forpago { get; set; }
         public bool pagado { get; set; }
         public DateTime fecpagado { get; set; }
         public string notas { get; set; }

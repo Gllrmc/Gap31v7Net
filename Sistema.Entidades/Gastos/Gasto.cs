@@ -16,6 +16,9 @@ namespace Sistema.Entidades.Gastos
         [ForeignKey("concepto")]
         public int idconcepto { get; set; }
         [Required]
+        [ForeignKey("forpago")]
+        public int idforpago { get; set; }
+        [Required]
         [Column(TypeName = "date")]
         public DateTime fecgasto { get; set; }
         [Required]
@@ -34,5 +37,6 @@ namespace Sistema.Entidades.Gastos
         [Required]
         public bool activo { get; set; }
         public Concepto concepto { get; set; }
+        public Forpago forpago { get; set; }
     }
 }

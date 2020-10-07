@@ -16,6 +16,8 @@ namespace Sistema.Web.Models.Gastos
         [Column(TypeName = "date")]
         public DateTime fecgasto { get; set; }
         public decimal importe { get; set; }
+        public int idforpago { get; set; }
+        public string forpago { get; set; }
         public string nota { get; set; }
         public bool pendiente { get; set; }
         public int iduseralta { get; set; }

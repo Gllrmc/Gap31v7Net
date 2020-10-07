@@ -34,6 +34,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
                 .Include(p => p.alternativapago)
+                .Include(p => p.forpago)
                 .Where(p => p.proyecto.activo == true && p.activo == true)
                 .OrderBy(p => p.idordenpago)
                 .AsNoTracking()
@@ -43,6 +44,8 @@ namespace Sistema.Web.Controllers
             {
                 idordenpago = a.idordenpago,
                 idproyecto = a.idproyecto,
+                proyectoorden = a.proyecto.orden,
+                proyecto = a.proyecto.proyecto,
                 iditem = a.iditem,
                 itemorden = a.item.orden,
                 itemes = a.item.itemes,
@@ -65,6 +68,8 @@ namespace Sistema.Web.Controllers
                 impsiniva = a.impsiniva,
                 imptotal = a.imptotal,
                 fecpago = a.fecpago,
+                idforpago = a.idforpago,
+                forpago = a.forpago.forpago,
                 pdfcomprobantefac = a.pdfcomprobantefac,
                 pagado = a.pagado,
                 fecpagado = a.fecpagado,
@@ -92,6 +97,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
                 .Include(p => p.alternativapago)
+                .Include(p => p.forpago)
                 .Where(p => p.proyecto.activo == true && p.activo == true && p.pagado == false)
                 .OrderBy(p => p.fecpago)
                 .AsNoTracking()
@@ -125,6 +131,8 @@ namespace Sistema.Web.Controllers
                 impsiniva = a.impsiniva,
                 imptotal = a.imptotal,
                 fecpago = a.fecpago,
+                idforpago = a.idforpago,
+                forpago = a.forpago.forpago,
                 pdfcomprobantefac = a.pdfcomprobantefac,
                 pagado = a.pagado,
                 fecpagado = a.fecpagado,
@@ -151,7 +159,7 @@ namespace Sistema.Web.Controllers
                     SELECT c.idordenpago, b.idproyecto, b.orden AS proyectoorden, b.proyecto, c.iditem, d.orden AS itemorden, d.itemes, 
                             e.idsubitem, e.orden AS subitemorden, e.subitemes, f.idproveedor, f.razonsocial, f.telefono, f.email, g.idalternativapago, g.beneficiario AS alternativapago,
                             g.banco, g.numcuenta, g.cbu, g.alias, 
-                            c.feccomprobante, c.tipocomprobante, c.numcomprobante, c.impsiniva, c.imptotal, c.fecpago, c.pdfcomprobantefac,
+                            c.feccomprobante, c.tipocomprobante, c.numcomprobante, c.impsiniva, c.imptotal, c.fecpago, o.idforpago, o.forpago, c.pdfcomprobantefac,
                             c.pagado, c.fecpagado, c.pdfcomprobantepago, c.pdfcertificado1, c.pdfcertificado2, c.pdfcertificado3, c.pdfcertificado4, 
                             c.notas, c.iduseralta, c.fecalta, c.iduserumod, c.fecumod, c.activo
                     FROM dbo.usuarioproyectos a
@@ -161,6 +169,7 @@ namespace Sistema.Web.Controllers
 	                    LEFT JOIN dbo.subitems e ON c.idsubitem = e.idsubitem
 	                    LEFT JOIN dbo.proveedores f ON c.idproveedor = f.idproveedor
 	                    LEFT JOIN dbo.alternativapagos g ON c.idalternativapago = g.idalternativapago
+                        LEFT JOIN dbo.forpagos o ON c.idforpago = g.idforpago
                     WHERE b.activo = 1 and c.activo = 1 and c.pagado = 0 and idusuario = {id}
                 ")
                 .IgnoreQueryFilters()
@@ -195,6 +204,8 @@ namespace Sistema.Web.Controllers
                 impsiniva = a.impsiniva,
                 imptotal = a.imptotal,
                 fecpago = a.fecpago,
+                idforpago = a.idforpago,
+                forpago = a.forpago,
                 pdfcomprobantefac = a.pdfcomprobantefac,
                 pagado = a.pagado,
                 fecpagado = a.fecpagado,
@@ -222,6 +233,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
                 .Include(p => p.alternativapago)
+                .Include(p => p.forpago)
                 .Where(p => p.proyecto.activo == true && p.activo == true)
                 .OrderBy(p => p.idordenpago)
                 .AsNoTracking()
@@ -253,6 +265,8 @@ namespace Sistema.Web.Controllers
                 impsiniva = a.impsiniva,
                 imptotal = a.imptotal,
                 fecpago = a.fecpago,
+                idforpago = a.idforpago,
+                forpago = a.forpago.forpago,
                 pdfcomprobantefac = a.pdfcomprobantefac,
                 pagado = a.pagado,
                 fecpagado = a.fecpagado,
@@ -301,6 +315,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
                 .Include(p => p.alternativapago)
+                .Include(p => p.forpago)
                 .Where(p => p.idproyecto == id)
                 .OrderBy(p => p.idordenpago)
                 .AsNoTracking()
@@ -332,6 +347,8 @@ namespace Sistema.Web.Controllers
                 impsiniva = a.impsiniva,
                 imptotal = a.imptotal,
                 fecpago = a.fecpago,
+                idforpago = a.idforpago,
+                forpago = a.forpago.forpago,
                 pdfcomprobantefac = a.pdfcomprobantefac,
                 pagado = a.pagado,
                 fecpagado = a.fecpagado,
@@ -377,6 +394,8 @@ SELECT a.idproyecto AS idproyecto
       ,cast(a.impsiniva AS decimal(18,2)) AS impneto
       ,cast(a.imptotal AS decimal(18,2)) AS imptotal
       ,a.fecpago
+      ,o.idforpago
+      ,o.forpago
       ,a.pagado
       ,isnull(a.fecpagado,'') AS fecpagado
       ,a.notas
@@ -388,6 +407,7 @@ SELECT a.idproyecto AS idproyecto
 	LEFT JOIN dbo.rubros f ON f.idrubro = e.idrubro
 	LEFT JOIN dbo.proveedores g ON a.idproveedor = g.idproveedor
 	LEFT JOIN dbo.alternativapagos h ON a.idalternativapago = h.idalternativapago
+    LEFT JOIN dbo.forpagos o ON a.idforpago = o.idforpago
 WHERE a.activo = 1 and b.idproyecto = {id}
 ) u                ")
                 .IgnoreQueryFilters()
@@ -416,6 +436,8 @@ WHERE a.activo = 1 and b.idproyecto = {id}
                 impneto = a.impneto,
                 imptotal = a.imptotal,
                 fecpago = a.fecpago,
+                idforpago = a.idforpago,
+                forpago = a.forpago,
                 pagado = a.pagado,
                 fecpagado = a.fecpagado,
                 notas = a.notas
@@ -434,6 +456,7 @@ WHERE a.activo = 1 and b.idproyecto = {id}
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
                 .Include(p => p.alternativapago)
+                .Include(p => p.forpago)
                 .Where(p => p.proyecto.activo == true)
                 .OrderBy(p => p.idordenpago)
                 .SingleOrDefaultAsync(a => a.idordenpago == id);
@@ -457,6 +480,8 @@ WHERE a.activo = 1 and b.idproyecto = {id}
                 impsiniva = ordenpago.impsiniva,
                 imptotal = ordenpago.imptotal,
                 fecpago = ordenpago.fecpago,
+                idforpago = ordenpago.idforpago,
+                forpago = ordenpago.forpago.forpago,
                 pdfcomprobantefac = ordenpago.pdfcomprobantefac,
                 pagado = ordenpago.pagado,
                 fecpagado = ordenpago.fecpagado,
@@ -507,6 +532,7 @@ WHERE a.activo = 1 and b.idproyecto = {id}
             ordenpago.impsiniva = model.impsiniva;
             ordenpago.imptotal = model.imptotal;
             ordenpago.fecpago = model.fecpago;
+            ordenpago.idforpago = model.idforpago;
             ordenpago.pdfcomprobantefac = model.pdfcomprobantefac;
             ordenpago.pdfcomprobantepago = model.pdfcomprobantepago;
             ordenpago.pdfcertificado1 = model.pdfcertificado1;
@@ -555,6 +581,7 @@ WHERE a.activo = 1 and b.idproyecto = {id}
                 impsiniva = model.impsiniva,
                 imptotal = model.imptotal,
                 fecpago = model.fecpago,
+                idforpago = model.idforpago,
                 pdfcomprobantefac = model.pdfcomprobantefac,
                 pdfcomprobantepago = model.pdfcomprobantepago,
                 pdfcertificado1 = model.pdfcertificado1,

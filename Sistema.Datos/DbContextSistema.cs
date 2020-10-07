@@ -88,6 +88,7 @@ namespace Sistema.Datos
         public DbSet<Over> Overs { get; set; }
         public DbSet<Factu> Factus { get; set; }
         public DbSet<Gasto> Gastos { get; set; }
+        public DbSet<Forpago> Forpagos { get; set; }
 
         public DbContextSistema(DbContextOptions<DbContextSistema> options) : base(options)
         {
@@ -153,6 +154,7 @@ namespace Sistema.Datos
             modelBuilder.ApplyConfiguration(new OverMap());
             modelBuilder.ApplyConfiguration(new FactuMap());
             modelBuilder.ApplyConfiguration(new GastoMap());
+            modelBuilder.ApplyConfiguration(new ForpagoMap());
         }
 
     }

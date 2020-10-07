@@ -30,6 +30,8 @@ namespace Sistema.Web.Models.Pagos
         [Required]
         public decimal imptotal { get; set; }
         public DateTime fecpago { get; set; }
+        [Required]
+        public int idforpago { get; set; }
         public string pdfcomprobantefac { get; set; }
         [Required]
         public bool pagado { get; set; }

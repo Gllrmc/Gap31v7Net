@@ -29,6 +29,8 @@ namespace Sistema.Web.Models.Pagos
         public decimal imptotal { get; set; }
         [Required]
         public DateTime fecpago { get; set; }
+        [Required]
+        public int idforpago { get; set; }
         public string pdfcomprobantefac { get; set; }
         [Required]
         public bool pagado { get; set; }

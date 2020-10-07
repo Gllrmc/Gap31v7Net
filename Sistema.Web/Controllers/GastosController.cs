@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Sistema.Web.Models.Gastos;
 
 namespace Sistema.Web.Controllers
 {
+    [Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
     [Route("api/[controller]")]
     [ApiController]
     public class GastosController : ControllerBase
@@ -28,6 +30,7 @@ namespace Sistema.Web.Controllers
         {
             var Gasto = await _context.Gastos
                 .Include(p => p.concepto)
+                .Include(p => p.forpago)
                 .OrderByDescending(p => p.fecgasto)
                 .ToListAsync();
 
@@ -40,6 +43,8 @@ namespace Sistema.Web.Controllers
                 color = r.concepto.color,
                 fecgasto = r.fecgasto.Date,
                 importe = r.importe,
+                idforpago = r.idforpago,
+                forpago = r.forpago.forpago,
                 nota = r.nota,
                 pendiente = r.pendiente,
                 iduseralta = r.iduseralta,
@@ -51,12 +56,14 @@ namespace Sistema.Web.Controllers
 
         }
 
+
         // GET: api/Gastos/Select
         [HttpGet("[action]")]
         public async Task<IEnumerable<GastoSelectModel>> Select()
         {
             var gasto = await _context.Gastos
                 .Include(p => p.concepto)
+                .Include(p => p.forpago)
                 .Where(r => r.activo == true)
                 .OrderBy(r => r.concepto.concepto)
                 .ToListAsync();
@@ -90,6 +97,7 @@ namespace Sistema.Web.Controllers
                 idconcepto = gasto.idconcepto,
                 fecgasto = gasto.fecgasto,
                 importe = gasto.importe,
+                idforpago = gasto.idforpago,
                 nota = gasto.nota,
                 pendiente = gasto.pendiente,
                 iduseralta = gasto.iduseralta,
@@ -125,6 +133,7 @@ namespace Sistema.Web.Controllers
             gasto.idconcepto = model.idconcepto;
             gasto.fecgasto = model.fecgasto;
             gasto.importe = model.importe;
+            gasto.idforpago = model.idforpago;
             gasto.nota = model.nota;
             gasto.pendiente = model.pendiente;
             gasto.iduserumod = model.iduserumod;
@@ -159,6 +168,7 @@ namespace Sistema.Web.Controllers
                 fecgasto = model.fecgasto,
                 importe = model.importe,
                 nota = model.nota,
+                idforpago = model.idforpago,
                 pendiente = true,
                 iduseralta = model.iduseralta,
                 fecalta = fechaHora,

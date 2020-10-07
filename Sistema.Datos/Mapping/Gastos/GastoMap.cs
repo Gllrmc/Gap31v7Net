@@ -15,6 +15,9 @@ namespace Sistema.Datos.Mapping.Gastos
             builder.HasOne(a => a.concepto)
                 .WithMany(d => d.gastos)
                 .HasForeignKey(a => a.idconcepto);
+            builder.HasOne(a => a.forpago)
+                .WithMany(d => d.gastos)
+                .HasForeignKey(a => a.idforpago);
         }
     }
 }

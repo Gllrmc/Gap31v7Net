@@ -30,6 +30,9 @@ namespace Sistema.Entidades.Pagos
         [ForeignKey("alternativapago")]
         public int idalternativapago { get; set; }
         [Required]
+        [ForeignKey("forpago")]
+        public int idforpago { get; set; }
+        [Required]
         public DateTime feccomprobante { get; set; }
         [Required]
         public string tipocomprobante { get; set; }
@@ -68,5 +71,6 @@ namespace Sistema.Entidades.Pagos
         public Subitem subitem { get; set; }
         public Proveedor proveedor { get; set; }
         public Alternativapago alternativapago { get; set; }
+        public Forpago forpago { get; set; }
     }
 }

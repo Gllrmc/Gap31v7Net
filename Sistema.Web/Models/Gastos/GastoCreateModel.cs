@@ -16,6 +16,8 @@ namespace Sistema.Web.Models.Gastos
         public DateTime fecgasto { get; set; }
         [Required]
         public decimal importe { get; set; }
+        [Required]
+        public int idforpago { get; set; }
         public string nota { get; set; }
         [Required]
         public bool pendiente { get; set; }
