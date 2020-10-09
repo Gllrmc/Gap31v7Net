@@ -169,7 +169,7 @@ namespace Sistema.Web.Controllers
 	                    LEFT JOIN dbo.subitems e ON c.idsubitem = e.idsubitem
 	                    LEFT JOIN dbo.proveedores f ON c.idproveedor = f.idproveedor
 	                    LEFT JOIN dbo.alternativapagos g ON c.idalternativapago = g.idalternativapago
-                        LEFT JOIN dbo.forpagos o ON c.idforpago = g.idforpago
+                        LEFT JOIN dbo.forpagos o ON c.idforpago = o.idforpago
                     WHERE b.activo = 1 and c.activo = 1 and c.pagado = 0 and idusuario = {id}
                 ")
                 .IgnoreQueryFilters()
