@@ -50,6 +50,7 @@ namespace Sistema.Web.Controllers
                 idpedidofondo = a.distribucionfondo.pedidofondo.idpedidofondo,
                 iddistribucionfondo = a.iddistribucionfondo,
                 fecdistribucion = a.distribucionfondo.fecdistribucion,
+                idresponsable = a.distribucionfondo.usuario.idusuario,
                 responsable = a.distribucionfondo.usuario.userid,
                 importedistribucion = a.distribucionfondo.importe,
                 iditem = a.iditem,
@@ -106,6 +107,7 @@ namespace Sistema.Web.Controllers
                 idpedidofondo = a.distribucionfondo.pedidofondo.idpedidofondo,
                 iddistribucionfondo = a.iddistribucionfondo,
                 fecdistribucion = a.distribucionfondo.fecdistribucion,
+                idresponsable = a.distribucionfondo.usuario.idusuario,
                 responsable = a.distribucionfondo.usuario.userid,
                 importedistribucion = a.distribucionfondo.importe,
                 iditem = a.iditem,
@@ -155,6 +157,63 @@ namespace Sistema.Web.Controllers
                 idpedidofondo = a.distribucionfondo.pedidofondo.idpedidofondo,
                 iddistribucionfondo = a.iddistribucionfondo,
                 fecdistribucion = a.distribucionfondo.fecdistribucion,
+                idresponsable = a.distribucionfondo.usuario.idusuario,
+                responsable = a.distribucionfondo.usuario.userid,
+                importedistribucion = a.distribucionfondo.importe,
+                iditem = a.iditem,
+                itemorden = a.item.orden,
+                itemes = a.item.itemes,
+                itemen = a.item.itemen,
+                idsubitem = a.idsubitem,
+                subitemorden = a.idsubitem.HasValue ? a.subitem.orden : "",
+                subitemes = a.idsubitem.HasValue ? a.subitem.subitemes : "",
+                subitemen = a.idsubitem.HasValue ? a.subitem.subitemen : "",
+                idproveedor = a.idproveedor,
+                proveedor = a.idproveedor.HasValue ? a.proveedor.razonsocial : "",
+                tipocomprobante = a.tipocomprobante,
+                numcomprobante = a.numcomprobante,
+                feccomprobante = a.feccomprobante,
+                indiceinterno = a.indiceinterno,
+                impsiniva = a.impsiniva,
+                imptotal = a.imptotal,
+                notas = a.notas,
+                pdfcomprobante = a.pdfcomprobante,
+                iduseralta = a.iduseralta,
+                fecalta = a.fecalta,
+                iduserumod = a.iduserumod,
+                fecumod = a.fecumod,
+                activo = a.activo
+            });
+
+        }
+
+        // GET: api/Rendicionfondos/ListarRendicionProy/2
+        [HttpGet("[action]/{id}")]
+        public async Task<IEnumerable<RendicionfondoViewModel>> ListarRendicionProy([FromRoute] int id)
+        {
+            var rendicionfondo = await _context.Rendicionfondos
+                .Include(p => p.distribucionfondo)
+                .ThenInclude(p => p.pedidofondo)
+                .ThenInclude(p => p.proyecto)
+                .Include(p => p.distribucionfondo)
+                .ThenInclude(p => p.usuario)
+                .Include(p => p.item)
+                .Include(p => p.subitem)
+                .Include(p => p.proveedor)
+                .Where(p => p.distribucionfondo.pedidofondo.idproyecto == id && p.distribucionfondo.pedidofondo.entregado == true && p.distribucionfondo.rendido == false)
+                .OrderBy(p => p.idrendicionfondo)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return rendicionfondo.Select(a => new RendicionfondoViewModel
+            {
+                idrendicionfondo = a.idrendicionfondo,
+                idproyecto = a.distribucionfondo.pedidofondo.proyecto.idproyecto,
+                proyecto = a.distribucionfondo.pedidofondo.proyecto.proyecto,
+                idpedidofondo = a.distribucionfondo.pedidofondo.idpedidofondo,
+                iddistribucionfondo = a.iddistribucionfondo,
+                fecdistribucion = a.distribucionfondo.fecdistribucion,
+                idresponsable = a.distribucionfondo.usuario.idusuario,
                 responsable = a.distribucionfondo.usuario.userid,
                 importedistribucion = a.distribucionfondo.importe,
                 iditem = a.iditem,
@@ -198,7 +257,7 @@ LEFT JOIN dbo.proyectos p ON a.idproyecto = p.idproyecto
 LEFT JOIN dbo.personas r ON a.idresponsable = r.idpersona
 LEFT JOIN dbo.subrubros s ON a.idsubrubro = s.idsubrubro
 LEFT JOIN dbo.rubros t ON s.idrubro = t.idrubro
-WHERE p.idproyecto = {id} and a.activo = 1
+WHERE p.idproyecto = {id} and a.activo = 1 and a.entregado = 1
 GROUP BY p.idproyecto, p.orden, proyecto, numpedido, nombre, rubro, s.idsubrubro, subrubro
 UNION
 SELECT p.idproyecto, p.orden as proy, p.proyecto as proyecto, g.numpedido, r.nombre, 'Rendicion' as origen, v.rubro, u.idsubrubro, u.subrubro, s.item, t.subitem, cast(sum(a.imptotal*-1) as decimal(18,2)) as importe
@@ -211,7 +270,7 @@ LEFT JOIN dbo.items s ON a.iditem = s.iditem
 Left Join dbo.subitems t ON a.idsubitem = t.idsubitem
 Left Join dbo.subrubros u ON s.idsubrubro = u.idsubrubro
 Left Join dbo.rubros v ON u.idrubro = v.idrubro
-WHERE p.idproyecto = {id} and a.activo = 1
+WHERE p.idproyecto = {id} and a.activo = 1 and g.entregado = 1
 GROUP BY p.idproyecto, p.orden, proyecto, numpedido, nombre, rubro, u.idsubrubro, subrubro, item, subitem
 ) u                
                 ")
@@ -265,6 +324,7 @@ GROUP BY p.idproyecto, p.orden, proyecto, numpedido, nombre, rubro, u.idsubrubro
                 idproyecto = rendicionfondo.distribucionfondo.pedidofondo.proyecto.idproyecto,
                 proyecto = rendicionfondo.distribucionfondo.pedidofondo.proyecto.proyecto,
                 iddistribucionfondo = rendicionfondo.iddistribucionfondo,
+                idresponsable = rendicionfondo.distribucionfondo.usuario.idusuario,
                 responsable = rendicionfondo.distribucionfondo.usuario.userid,
                 fecdistribucion = rendicionfondo.distribucionfondo.fecdistribucion,
                 importedistribucion = rendicionfondo.distribucionfondo.importe,

@@ -27,7 +27,6 @@ namespace Sistema.Entidades.Maestros
         [Required]
         public string situacioniibb { get; set; }
         public string jurisdiccion { get; set; }
-        [Required]
         [EmailAddress]
         public string email { get; set; }
         public string telefono { get; set; }

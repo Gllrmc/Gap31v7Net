@@ -18,6 +18,7 @@ namespace Sistema.Entidades.Fondos
         public DateTime fecpedido { get; set; }
         public decimal importe { get; set; }
         public string notas { get; set; }
+        public bool entregado { get; set; }
         public bool rendido { get; set; }
         public int iduseralta { get; set; }
         public DateTime fecalta { get; set; }

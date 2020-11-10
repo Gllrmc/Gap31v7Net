@@ -32,6 +32,8 @@ namespace Sistema.Entidades.Fondos
         public decimal importe { get; set; }
         public string notas { get; set; }
         [Required]
+        public bool entregado { get; set; }
+        [Required]
         public bool rendido { get; set; }
         [Required]
         public int iduseralta { get; set; }

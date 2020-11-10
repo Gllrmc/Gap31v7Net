@@ -68,7 +68,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.usuario)
                 .Include(p => p.pedidofondo)
                 .ThenInclude(p => p.proyecto)
-                .Where(p => p.activo == true && p.pedidofondo.activo == true && p.pedidofondo.proyecto.activo == true && p.pedidofondo.proyecto.cierreprod == false && p.pedidofondo.proyecto.cierreadmin == false)
+                .Where(p => p.activo == true && p.pedidofondo.activo == true && p.pedidofondo.entregado == true && p.pedidofondo.proyecto.activo == true && p.pedidofondo.proyecto.cierreprod == false && p.pedidofondo.proyecto.cierreadmin == false)
                 .OrderBy(p => p.iddistribucionfondo)
                 .ToListAsync();
 
@@ -104,7 +104,7 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.usuario)
                 .Include(p => p.pedidofondo)
                 .ThenInclude(p => p.proyecto)
-                .Where(p => p.idusuario == id && p.activo == true && p.pedidofondo.activo == true && p.pedidofondo.proyecto.activo == true && p.pedidofondo.proyecto.cierreprod == false && p.pedidofondo.proyecto.cierreadmin == false)
+                .Where(p => p.idusuario == id && p.activo == true && p.pedidofondo.activo == true && p.pedidofondo.entregado == true && p.pedidofondo.proyecto.activo == true && p.pedidofondo.proyecto.cierreprod == false && p.pedidofondo.proyecto.cierreadmin == false)
                 .OrderBy(p => p.iddistribucionfondo)
                 .ToListAsync();
 
@@ -132,7 +132,7 @@ namespace Sistema.Web.Controllers
 
         }
 
-        // GET: api/Distribucionfondos/ListarPedidofondo
+        // GET: api/Distribucionfondos/ListarPedidofondo/1
         [HttpGet("[action]/{id}")]
         public async Task<IEnumerable<DistribucionfondoViewModel>> ListarPedidofondo([FromRoute] int id)
         {

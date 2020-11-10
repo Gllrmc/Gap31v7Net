@@ -9,6 +9,7 @@ namespace Sistema.Web.Models.Fondos
         public int idproyecto { get; set; }
         public string proyecto { get; set; }
         public int idpedidofondo { get; set; }
+        public int idresponsable { get; set; }
         public string responsable { get; set; }
         public DateTime fecdistribucion { get; set; }
         public decimal importedistribucion { get; set; }

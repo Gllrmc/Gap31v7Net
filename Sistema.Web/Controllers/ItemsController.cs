@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +13,7 @@ using Sistema.Web.Models.Jerarquia;
 
 namespace Sistema.Web.Controllers
 {
-    [Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
+    //[Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemsController : ControllerBase
@@ -66,7 +67,7 @@ namespace Sistema.Web.Controllers
             var item = await _context.Items
                 .Include(r => r.subrubros)
                 .Where(r => r.activo == true)
-                .OrderBy(r => r.item)
+                .OrderBy(r => r.orden)
                 .ToListAsync();
 
             return item.Select(r => new ItemSelectModel
@@ -75,7 +76,7 @@ namespace Sistema.Web.Controllers
                 orden = r.orden,
                 itemes = r.itemes,
                 itemen = r.itemen,
-                item = r.item,
+                item = String.Concat(r.orden.PadLeft(3,'0'),"-",r.itemes),
                 vivo = r.subrubros.vivo,
                 post = r.subrubros.post,
                 conf = r.subrubros.conf,
@@ -90,7 +91,7 @@ namespace Sistema.Web.Controllers
             var item = await _context.Items
                 .Include(r => r.subrubros)
                 .Where(r => r.activo == true && r.esdxd == false && r.espost == false && r.esmotion == false )
-                .OrderBy(r => r.item)
+                .OrderBy(r => r.orden)
                 .ToListAsync();
 
             return item.Select(r => new ItemSelectModel
@@ -99,7 +100,7 @@ namespace Sistema.Web.Controllers
                 orden = r.orden,
                 itemes = r.itemes,
                 itemen = r.itemen,
-                item = r.item,
+                item = String.Concat(r.orden.PadLeft(3, '0'), "-", r.itemes),
                 vivo = r.subrubros.vivo,
                 post = r.subrubros.post,
                 conf = r.subrubros.conf
@@ -114,7 +115,7 @@ namespace Sistema.Web.Controllers
             var item = await _context.Items
                 .Include(r => r.subrubros)
                 .Where(r => r.activo == true && r.esdxd == true)
-                .OrderBy(r => r.item)
+                .OrderBy(r => r.orden)
                 .ToListAsync();
 
             return item.Select(r => new ItemSelectModel
@@ -123,7 +124,7 @@ namespace Sistema.Web.Controllers
                 orden = r.orden,
                 itemes = r.itemes,
                 itemen = r.itemen,
-                item = r.item,
+                item = String.Concat(r.orden.PadLeft(3, '0'), "-", r.itemes),
                 vivo = r.subrubros.vivo,
                 post = r.subrubros.post,
                 conf = r.subrubros.conf
@@ -137,7 +138,7 @@ namespace Sistema.Web.Controllers
             var item = await _context.Items
                 .Include(r => r.subrubros)
                 .Where(r => r.activo == true && r.espost == true)
-                .OrderBy(r => r.item)
+                .OrderBy(r => r.orden)
                 .ToListAsync();
 
             return item.Select(r => new ItemSelectModel
@@ -146,7 +147,7 @@ namespace Sistema.Web.Controllers
                 orden = r.orden,
                 itemes = r.itemes,
                 itemen = r.itemen,
-                item = r.item,
+                item = String.Concat(r.orden.PadLeft(3, '0'), "-", r.itemes),
                 vivo = r.subrubros.vivo,
                 post = r.subrubros.post,
                 conf = r.subrubros.conf
@@ -160,7 +161,7 @@ namespace Sistema.Web.Controllers
             var item = await _context.Items
                 .Include(r => r.subrubros)
                 .Where(r => r.activo == true && r.esmotion == true)
-                .OrderBy(r => r.item)
+                .OrderBy(r => r.orden)
                 .ToListAsync();
 
             return item.Select(r => new ItemSelectModel
@@ -169,7 +170,7 @@ namespace Sistema.Web.Controllers
                 orden = r.orden,
                 itemes = r.itemes,
                 itemen = r.itemen,
-                item = r.item,
+                item = String.Concat(r.orden.PadLeft(3, '0'), "-", r.itemes),
                 vivo = r.subrubros.vivo,
                 post = r.subrubros.post,
                 conf = r.subrubros.conf
@@ -183,7 +184,7 @@ namespace Sistema.Web.Controllers
             var item = await _context.Items
                 .Include(r => r.subrubros)
                 .Where(r => r.activo == true)
-                .OrderBy(r => r.item)
+                .OrderBy(r => r.orden)
                 .ToListAsync();
 
             return item.Select(r => new ItemSelectModel
@@ -192,7 +193,7 @@ namespace Sistema.Web.Controllers
                 orden = r.orden,
                 itemes = r.itemes,
                 itemen = r.itemen,
-                item = r.item,
+                item = String.Concat(r.orden.PadLeft(3, '0'), "-", r.itemes),
                 vivo = r.subrubros.vivo,
                 post = r.subrubros.post,
                 conf = r.subrubros.conf

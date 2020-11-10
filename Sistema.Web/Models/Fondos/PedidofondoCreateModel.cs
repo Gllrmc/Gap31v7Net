@@ -21,6 +21,7 @@ namespace Sistema.Web.Models.Fondos
         [Required]
         public decimal importe { get; set; }
         public string notas { get; set; }
+        public bool entregado { get; set; }
         public bool rendido { get; set; }
         public int iduseralta { get; set; }
         public DateTime fecalta { get; set; }

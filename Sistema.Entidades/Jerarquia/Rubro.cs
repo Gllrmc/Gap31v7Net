@@ -20,6 +20,7 @@ namespace Sistema.Entidades.Jerarquia
         public string orden { get; set; }
         [Required]
         public bool activo { get; set; }
+        public string rubro { get; }
 
         public ICollection<Subrubro> subrubros { get; set; }
         public ICollection<Flujocaja> flujocajas { get; set; }

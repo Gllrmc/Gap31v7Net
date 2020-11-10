@@ -31,7 +31,7 @@ namespace Sistema.Entidades.Jerarquia
         public bool conf { get; set; }
         [Required]
         public bool activo { get; set; }
-        public string subrubro { get; set; }
+        public string subrubro { get; }
         public Rubro rubros { get; set; }
         public ICollection<Item> items { get; set; }
         public ICollection<Pedidofondo> pedidofondos { get; set; }

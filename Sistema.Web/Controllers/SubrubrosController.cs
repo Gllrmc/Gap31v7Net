@@ -12,7 +12,7 @@ using Sistema.Web.Models.Jerarquia;
 
 namespace Sistema.Web.Controllers
 {
-    [Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
+    //[Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
     [Route("api/[controller]")]
     [ApiController]
     public class SubrubrosController : ControllerBase
@@ -66,7 +66,7 @@ namespace Sistema.Web.Controllers
                 orden = r.orden,
                 subrubroes = r.subrubroes,
                 subrubroen = r.subrubroen,
-                subrubro = r.subrubro,
+                subrubro = String.Concat(r.orden, '-', r.subrubroes),
                 post = r.post,
                 vivo = r.vivo,
                 conf = r.conf

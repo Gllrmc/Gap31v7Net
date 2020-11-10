@@ -44,13 +44,14 @@ namespace Sistema.Web.Controllers
                 orden = a.proyecto.orden,
                 proyecto = a.proyecto.proyecto,
                 idsubrubro = a.subrubro.idsubrubro,
-                subrubro = a.subrubro.subrubro,
+                subrubro = String.Concat(a.subrubro.orden,'-',a.subrubro.subrubroes),
                 idresponsable = a.idresponsable,
                 responsable = a.responsable.nombre,
                 numpedido = a.numpedido,
                 fecpedido = a.fecpedido,
                 importe = a.importe,
                 notas = a.notas,
+                entregado = a.entregado,
                 rendido = a.rendido,
                 iduseralta = a.iduseralta,
                 fecalta = a.fecalta,
@@ -66,7 +67,7 @@ namespace Sistema.Web.Controllers
         {
             var pedidofondo = await _context.Pedidosfondo
                 .Include(p => p.proyecto)
-                .Where(p => p.idproyecto == id && p.activo == true && p.proyecto.activo == true && p.proyecto.cierreprod == false && p.proyecto.cierreadmin == false)
+                .Where(p => p.idproyecto == id && p.proyecto.activo == true && p.proyecto.cierreprod == false && p.proyecto.cierreadmin == false)
                 .Include(p => p.responsable)
                 .Include(p => p.subrubro)
                 .OrderBy(p => p.idpedidofondo)
@@ -80,13 +81,14 @@ namespace Sistema.Web.Controllers
                 orden = a.proyecto.orden,
                 proyecto = a.proyecto.proyecto,
                 idsubrubro = a.subrubro.idsubrubro,
-                subrubro = a.subrubro.subrubro,
+                subrubro = String.Concat(a.subrubro.orden,'-',a.subrubro.subrubroes),
                 idresponsable = a.idresponsable,
                 responsable = a.responsable.nombre,
                 numpedido = a.numpedido,
                 fecpedido = a.fecpedido,
                 importe = a.importe,
                 notas = a.notas,
+                entregado = a.entregado,
                 rendido = a.rendido,
                 iduseralta = a.iduseralta,
                 fecalta = a.fecalta,
@@ -102,7 +104,7 @@ namespace Sistema.Web.Controllers
         {
             var pedidofondo = await _context.Pedidosfondo
                 .Include(p => p.proyecto)
-                .Where(p => p.activo == true && p.proyecto.activo == true && p.proyecto.cierreprod == false && p.proyecto.cierreadmin == false)
+                .Where(p => p.entregado == true && p.activo == true && p.proyecto.activo == true && p.proyecto.cierreprod == false && p.proyecto.cierreadmin == false)
                 .Include(p => p.responsable)
                 .Include(p => p.subrubro)
                 .OrderBy(p => p.idpedidofondo)
@@ -116,13 +118,14 @@ namespace Sistema.Web.Controllers
                 orden = a.proyecto.orden,
                 proyecto = a.proyecto.proyecto,
                 idsubrubro = a.subrubro.idsubrubro,
-                subrubro = a.subrubro.subrubro,
+                subrubro = String.Concat(a.subrubro.orden, '-', a.subrubro.subrubroes),
                 idresponsable = a.idresponsable,
                 responsable = a.responsable.nombre,
                 numpedido = a.numpedido,
                 fecpedido = a.fecpedido,
                 importe = a.importe,
                 notas = a.notas,
+                entregado = a.entregado,
                 rendido = a.rendido,
                 iduseralta = a.iduseralta,
                 fecalta = a.fecalta,
@@ -139,14 +142,14 @@ namespace Sistema.Web.Controllers
             var pedidofondo = await _context.Sqlpedidofondo
                 .FromSqlRaw($@"
                     Select f.idpedidofondo, p.idproyecto, p.orden, p.proyecto, s.idsubrubro, s.subrubro,
-                        r.idpersona idresponsable, r.nombre responsable, f.numpedido, f.fecpedido, f.importe, f.notas, f.rendido, 
+                        r.idpersona idresponsable, r.nombre responsable, f.numpedido, f.fecpedido, f.importe, f.notas, f.entregado, f.rendido, 
                         f.iduseralta, f.fecalta, f.iduserumod, f.fecumod, f.activo
                     From usuarioproyectos u
                     Left Join proyectos p ON p.idproyecto = u.idproyecto
                     left join pedidosfondo f ON f.idproyecto = p.idproyecto
                     left join subrubros s ON s.idsubrubro = f.idsubrubro
                     left join personas r ON r.idpersona = f.idresponsable
-                    Where idpedidofondo is not null and u.idusuario = {id}
+                    Where idpedidofondo is not null and f.entregado is not null and f.activo is not null and u.idusuario = {id}
                 ")
                 .IgnoreQueryFilters()
                 .AsNoTracking()
@@ -166,6 +169,7 @@ namespace Sistema.Web.Controllers
                 fecpedido = a.fecpedido,
                 importe = a.importe,
                 notas = a.notas,
+                entregado = a.entregado,
                 rendido = a.rendido,
                 iduseralta = a.iduseralta,
                 fecalta = a.fecalta,
@@ -260,6 +264,7 @@ namespace Sistema.Web.Controllers
             pedidofondo.fecpedido = model.fecpedido;
             pedidofondo.importe = model.importe;
             pedidofondo.notas = model.notas;
+            pedidofondo.entregado = model.entregado;
             pedidofondo.rendido = model.rendido;
             pedidofondo.iduserumod = model.iduserumod;
             pedidofondo.fecumod = fechaHora;
@@ -298,6 +303,7 @@ namespace Sistema.Web.Controllers
                 fecpedido = model.fecpedido,
                 importe = model.importe,
                 notas = model.notas,
+                entregado = model.entregado,
                 rendido = model.rendido,
                 iduseralta = model.iduseralta,
                 fecalta = fechaHora,
@@ -369,6 +375,80 @@ namespace Sistema.Web.Controllers
             }
 
             pedidofondo.activo = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Guardar Excepción
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        // PUT: api/Pedidofondos/DesactivarEntrega/1
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> DesactivarEntrega([FromRoute] int id)
+        {
+
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var pedidofondo = await _context.Pedidosfondo.FirstOrDefaultAsync(a => a.idpedidofondo == id);
+
+            if (pedidofondo == null)
+            {
+                return NotFound();
+            }
+
+            var haydistribucionfondo = await _context.Distribucionfondos
+                .Include(p => p.pedidofondo)
+                .Where(p => p.idpedidofondo == id)
+                .CountAsync();
+
+            if ( haydistribucionfondo > 0 )
+            {
+                return BadRequest();
+            }
+
+            pedidofondo.entregado = false;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Guardar Excepción
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        // PUT: api/Pedidofondos/ActivarEntrega/1
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> ActivarEntrega([FromRoute] int id)
+        {
+
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var pedidofondo = await _context.Pedidosfondo.FirstOrDefaultAsync(a => a.idpedidofondo == id);
+
+            if (pedidofondo == null)
+            {
+                return NotFound();
+            }
+
+            pedidofondo.entregado = true;
 
             try
             {

@@ -46,7 +46,7 @@ namespace Sistema.Entidades.Jerarquia
         public DateTime fecumod { get; set; }
         [Required]
         public bool activo { get; set; }
-        public string item { get; set; }
+        public string item { get; }
 
         public Subrubro subrubros { get; set; }
         public ICollection<Subitem> subitems { get; set; }

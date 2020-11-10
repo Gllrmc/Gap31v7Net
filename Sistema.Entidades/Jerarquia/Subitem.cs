@@ -27,6 +27,7 @@ namespace Sistema.Entidades.Jerarquia
         [StringLength(5, MinimumLength = 1, ErrorMessage = "El orden no puede ser mayor a 5 ni menor a 1 caracter")]
         public string orden { get; set; }
         public bool activo { get; set; }
+        public string subtitem { get; }
 
         public Item item { get; set; }
         public ICollection<Presupuesto> presupuestos { get; set; }
