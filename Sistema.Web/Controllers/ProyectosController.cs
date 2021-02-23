@@ -56,7 +56,6 @@ namespace Sistema.Web.Controllers
                 .ThenInclude(p => p.cp)
                 .Where(p => p.proyecto.cierreadmin == false)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -117,7 +116,6 @@ namespace Sistema.Web.Controllers
         public async Task<IEnumerable<ProyectoViewModel>> Listaractivosusuario([FromRoute] int id)
         {
             var proyecto = await _context.Usuarioproyectos
-                .Where(p => p.idusuario == id)
                 .Include(p => p.proyecto)
                 .ThenInclude(p => p.tipoprod)
                 .Include(p => p.proyecto)
@@ -141,9 +139,8 @@ namespace Sistema.Web.Controllers
                 .ThenInclude(p => p.lp)
                 .Include(p => p.proyecto)
                 .ThenInclude(p => p.cp)
-                .Where(p => p.proyecto.cierreadmin == false && p.proyecto.activo == true)
+                .Where(p => p.proyecto.cierreadmin == false && p.proyecto.activo == true && p.activo == true && p.idusuario == id)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -204,7 +201,6 @@ namespace Sistema.Web.Controllers
         public async Task<IEnumerable<ProyectoViewModel>> Listaractivosusuariovivo([FromRoute] int id)
         {
             var proyecto = await _context.Usuarioproyectos
-                .Where(p => p.idusuario == id)
                 .Include(p => p.proyecto)
                 .ThenInclude(p => p.tipoprod)
                 .Include(p => p.proyecto)
@@ -228,9 +224,8 @@ namespace Sistema.Web.Controllers
                 .ThenInclude(p => p.lp)
                 .Include(p => p.proyecto)
                 .ThenInclude(p => p.cp)
-                .Where(p => p.vivo == true && p.proyecto.cierreadmin == false && p.proyecto.activo == true)
+                .Where(p => p.activo == true && p.vivo == true && p.proyecto.cierreadmin == false && p.proyecto.activo == true && p.idusuario == id )
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -291,7 +286,6 @@ namespace Sistema.Web.Controllers
         public async Task<IEnumerable<ProyectoViewModel>> Listaractivosusuariopost([FromRoute] int id)
         {
             var proyecto = await _context.Usuarioproyectos
-                .Where(p => p.idusuario == id)
                 .Include(p => p.proyecto)
                 .ThenInclude(p => p.tipoprod)
                 .Include(p => p.proyecto)
@@ -315,9 +309,8 @@ namespace Sistema.Web.Controllers
                 .ThenInclude(p => p.lp)
                 .Include(p => p.proyecto)
                 .ThenInclude(p => p.cp)
-                .Where(p => p.post == true && p.proyecto.cierreadmin == false && p.proyecto.activo == true)
+                .Where(p => p.post == true && p.proyecto.cierreadmin == false && p.proyecto.activo == true && p.activo == true && p.idusuario == id)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -394,7 +387,6 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.cierreadmin == false)
                 //.Include(p => p.padre)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -470,7 +462,6 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.cierreadmin == true)
                 //.Include(p => p.padre)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -547,7 +538,6 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.activo == true && p.cierreadmin == false)
                 //.Include(p => p.padre)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -624,7 +614,6 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.activo == true && p.cierreadmin == false)
                 //.Include(p => p.padre)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -760,7 +749,6 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.activo == true && p.cierreadmin == false)
                 //.Include(p => p.padre)
                 .OrderBy(p => p.idproyecto)
-                .Take(100)
                 .SingleOrDefaultAsync(a => a.idproyecto == id);
 
             if (proyecto == null)

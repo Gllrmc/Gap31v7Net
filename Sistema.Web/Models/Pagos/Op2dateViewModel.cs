@@ -32,5 +32,6 @@ namespace Sistema.Web.Models.Pagos
         public bool pagado { get; set; }
         public DateTime fecpagado { get; set; }
         public string notas { get; set; }
+        public string cuentagcom { get; set; }
     }
 }

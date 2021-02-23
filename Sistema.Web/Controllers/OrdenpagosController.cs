@@ -399,6 +399,7 @@ SELECT a.idproyecto AS idproyecto
       ,a.pagado
       ,isnull(a.fecpagado,'') AS fecpagado
       ,a.notas
+      ,c.cuentagcom
   FROM dbo.ordenpagos a
 	LEFT JOIN dbo.proyectos b ON a.idproyecto = b.idproyecto
 	LEFT JOIN dbo.items c on a.iditem = c.iditem
@@ -440,7 +441,8 @@ WHERE a.activo = 1 and b.idproyecto = {id}
                 forpago = a.forpago,
                 pagado = a.pagado,
                 fecpagado = a.fecpagado,
-                notas = a.notas
+                notas = a.notas,
+                cuentagcom = a.cuentagcom
             });
 
         }

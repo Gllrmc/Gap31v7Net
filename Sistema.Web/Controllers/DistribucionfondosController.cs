@@ -96,9 +96,9 @@ namespace Sistema.Web.Controllers
 
         }
 
-        // GET: api/Distribucionfondos/Listaractivosusuario/6
+        // GET: api/Distribucionfondos/ListarActivosUsuario/6
         [HttpGet("[action]/{id}")]
-        public async Task<IEnumerable<DistribucionfondoViewModel>> Listaractivosusuario([FromRoute] int id)
+        public async Task<IEnumerable<DistribucionfondoViewModel>> ListarActivosUsuario([FromRoute] int id)
         {
             var distribucionfondo = await _context.Distribucionfondos
                 .Include(p => p.usuario)
@@ -115,8 +115,8 @@ namespace Sistema.Web.Controllers
                 proyecto = a.pedidofondo.proyecto.proyecto,
                 orden = a.pedidofondo.proyecto.orden,
                 idusuario = a.idusuario,
-                idpedidofondo = a.idpedidofondo,
                 usuario = a.usuario.userid,
+                idpedidofondo = a.idpedidofondo,
                 numpedido = a.pedidofondo.numpedido,
                 fecdistribucion = a.fecdistribucion,
                 devolucion = a.devolucion,
@@ -130,6 +130,52 @@ namespace Sistema.Web.Controllers
                 activo = a.activo
             });
 
+        }
+
+        // GET: api/Distribucionfondos/ListarActivosResponsable/6
+        [HttpGet("[action]/{id}")]
+        public async Task<IEnumerable<DistribucionfondoViewModel>> ListarActivosResponsable([FromRoute] int id)
+        {
+            var distribucionfondo = await _context.Sqldistribucionfondo
+                .FromSqlRaw($@"
+                    Select d.iddistribucionfondo, p.idproyecto, p.orden, p.proyecto, 
+                        d.idusuario, x.userid, d.idpedidofondo, f.numpedido, d.fecdistribucion, d.devolucion, 
+                        d.importe, d.notas, d.rendido, 
+                        d.iduseralta, d.fecalta, d.iduserumod, d.fecumod, d.activo
+                    From usuarioproyectos u
+                    Left Join proyectos p ON p.idproyecto = u.idproyecto
+                    left join pedidosfondo f ON f.idproyecto = p.idproyecto
+					inner join distribucionfondos d ON d.idpedidofondo = f.idpedidofondo
+                    left join subrubros s ON s.idsubrubro = f.idsubrubro
+                    left join personas r ON r.idpersona = f.idresponsable
+					left join usuario x ON x.idusuario = d.idusuario
+                    Where f.idpedidofondo is not null and f.entregado is not null and f.activo = 1 and u.activo = 1 and u.idusuario = {id}
+                ")
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .ToListAsync();
+
+            return distribucionfondo.Select(a => new DistribucionfondoViewModel
+            {
+                iddistribucionfondo = a.iddistribucionfondo,
+                idproyecto = a.idproyecto,
+                proyecto = a.proyecto,
+                orden = a.orden,
+                idusuario = a.idusuario,
+                usuario = a.userid,
+                idpedidofondo = a.idpedidofondo,
+                numpedido = a.numpedido,
+                fecdistribucion = a.fecdistribucion,
+                devolucion = a.devolucion,
+                importe = a.importe,
+                notas = a.notas,
+                rendido = a.rendido,
+                iduseralta = a.iduseralta,
+                fecalta = a.fecalta,
+                iduserumod = a.iduserumod,
+                fecumod = a.fecumod,
+                activo = a.activo
+            });
         }
 
         // GET: api/Distribucionfondos/ListarPedidofondo/1

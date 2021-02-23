@@ -217,7 +217,6 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.resultados)
                 .Where(p => p.resultados.esaprobacion == true)
                 .OrderByDescending(p => p.fecaprobacion)
-                .Take(20)
                 .ToListAsync();
 
             return Limbo.Select(r => new LimboViewModel
@@ -306,7 +305,6 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.resultados)
                 .Where(p => p.resultados.esaprobacion == true)
                 .OrderByDescending(p => p.fecaprobacion)
-                .Take(20)
                 .ToListAsync();
 
             return Limbo.Select(r => new LimboViewModel

@@ -149,7 +149,7 @@ namespace Sistema.Web.Controllers
                     left join pedidosfondo f ON f.idproyecto = p.idproyecto
                     left join subrubros s ON s.idsubrubro = f.idsubrubro
                     left join personas r ON r.idpersona = f.idresponsable
-                    Where idpedidofondo is not null and f.entregado is not null and f.activo is not null and u.idusuario = {id}
+                    Where idpedidofondo is not null and f.entregado is not null and f.activo = 1 and u.activo = 1 and u.idusuario = {id}
                 ")
                 .IgnoreQueryFilters()
                 .AsNoTracking()
