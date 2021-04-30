@@ -116,7 +116,7 @@ namespace Sistema.Web.Controllers
                     GROUP BY p.idproyecto, p.orden, p.proyecto, e.idrubro, e.rubro, d.idsubrubro, d.subrubro, b.iditem, b.item, c.idsubitem, c.subitem, d.conf
                     UNION
                     SELECT p.idproyecto as idproyecto, p.orden as proy, p.proyecto as proyecto, e.idrubro, e.rubro, d.idsubrubro, d.subrubro, b.iditem, b.item, c.idsubitem, c.subitem, 'Pagos' as origen,'Real' as tipo, 
-		                    cast(SUM(imptotal)*-1 as decimal(18,2)) as importe, d.conf
+		                    cast(SUM(impsiniva)*-1 as decimal(18,2)) as importe, d.conf
                     FROM dbo.ordenpagos a
                     LEFT JOIN dbo.items b on a.iditem = b.iditem
                     LEFT JOIN dbo.subitems c on a.idsubitem = c.idsubitem
@@ -127,7 +127,7 @@ namespace Sistema.Web.Controllers
                     GROUP BY p.idproyecto, p.orden, p.proyecto, e.idrubro, e.rubro, d.idsubrubro, d.subrubro, b.iditem, b.item, c.idsubitem, c.subitem, d.conf
                     UNION
                     SELECT p.idproyecto as idproyecto, p.orden as proy, p.proyecto as proyecto, e.idrubro, e.rubro, d.idsubrubro, d.subrubro, b.iditem, b.item, c.idsubitem, c.subitem, 'Pagos' as origen,'Comprometido' as tipo, 
-		                    cast(SUM(imptotal)*-1 as decimal(18,2)) as importe, d.conf
+		                    cast(SUM(impsiniva)*-1 as decimal(18,2)) as importe, d.conf
                     FROM dbo.ordenpagos a
                     LEFT JOIN dbo.items b on a.iditem = b.iditem
                     LEFT JOIN dbo.subitems c on a.idsubitem = c.idsubitem
@@ -174,7 +174,7 @@ namespace Sistema.Web.Controllers
                     GROUP BY p.idproyecto, p.orden, p.proyecto, e.idrubro, e.rubro, d.idsubrubro, d.subrubro, b.iditem, b.item, c.idsubitem, c.subitem, d.conf
                     UNION
                     SELECT p.idproyecto as idproyecto, p.orden as proy, p.proyecto as proyecto, e.idrubro, e.rubro, d.idsubrubro, d.subrubro, b.iditem, b.item, c.idsubitem, c.subitem, 'Rendido' as origen,'Real' as tipo, 
-		                    cast(sum(a.imptotal) as decimal(18,2))*-1 as importe, d.conf
+		                    cast(sum(a.impsiniva) as decimal(18,2))*-1 as importe, d.conf
                     FROM dbo.rendicionfondos a
                     LEFT JOIN dbo.items b on a.iditem = b.iditem
                     LEFT JOIN dbo.subitems c on a.idsubitem = c.idsubitem
