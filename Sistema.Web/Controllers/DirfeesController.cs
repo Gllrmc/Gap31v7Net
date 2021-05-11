@@ -12,7 +12,7 @@ using Sistema.Web.Models.Limbos;
 
 namespace Sistema.Web.Controllers
 {
-    //[Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
+    [Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
     [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     [ApiController]
     public class DirfeesController : ControllerBase
