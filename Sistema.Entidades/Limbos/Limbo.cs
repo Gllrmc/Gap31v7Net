@@ -133,5 +133,7 @@ namespace Sistema.Entidades.Limbos
         public Posicion posiciones { get; set; }
         public ICollection<Over> overs { get; set; }
         public ICollection<Factu> factus { get; set; }
+        public ICollection<Dirfee> dirfees { get; set; }
+        public ICollection<Regpitch> regpitchs { get; set; }
     }
 }

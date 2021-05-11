@@ -88,6 +88,8 @@ namespace Sistema.Datos
         public DbSet<Concepto> Conceptos { get; set; }
         public DbSet<Over> Overs { get; set; }
         public DbSet<Factu> Factus { get; set; }
+        public DbSet<Regpitch> Regpitchs { get; set; }
+        public DbSet<Dirfee> Dirfees { get; set; }
         public DbSet<Gasto> Gastos { get; set; }
         public DbSet<Forpago> Forpagos { get; set; }
 
@@ -155,6 +157,8 @@ namespace Sistema.Datos
             modelBuilder.ApplyConfiguration(new ConceptoMap());
             modelBuilder.ApplyConfiguration(new OverMap());
             modelBuilder.ApplyConfiguration(new FactuMap());
+            modelBuilder.ApplyConfiguration(new RegpitchMap());
+            modelBuilder.ApplyConfiguration(new DirfeeMap());
             modelBuilder.ApplyConfiguration(new GastoMap());
             modelBuilder.ApplyConfiguration(new ForpagoMap());
         }
