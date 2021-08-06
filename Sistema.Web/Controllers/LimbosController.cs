@@ -12,7 +12,7 @@ using Sistema.Web.Models.Limbos;
 
 namespace Sistema.Web.Controllers
 {
-    [Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
+    //[Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
     [Route("api/[controller]")]
     [ApiController]
     public class LimbosController : ControllerBase
@@ -304,6 +304,180 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.clientes)
                 .Include(p => p.resultados)
                 .Where(p => p.resultados.esaprobacion == true)
+                .OrderByDescending(p => p.fecaprobacion)
+                .ToListAsync();
+
+            return Limbo.Select(r => new LimboViewModel
+            {
+                idlimbo = r.idlimbo,
+                orden = r.orden,
+                proyecto = r.proyecto,
+                idep = r.idep,
+                ep = r.lep.nombre,
+                idcliente = r.idcliente,
+                cliente = r.clientes.razonsocial,
+                idorigen = r.idorigen,
+                origen = r.origenes.origen,
+                territorio = r.origenes.territorio.territorio,
+                idagencia = r.idagencia,
+                agencia = r.agencias.agencia,
+                idpitch = r.idpitch,
+                pitch = r.pitchs.pitch,
+                iddirector = r.iddirector,
+                director = r.ldirector.nombre,
+                idcodirector = r.idcodirector,
+                codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
+                idproductora = r.idproductora,
+                productora = r.productoras.productora,
+                idtipoprod = r.idtipoprod,
+                tipoprod = r.tipoprods.tipoprod,
+                impcosto = r.impcosto,
+                porcontingencia = r.porcontingencia,
+                porgastosfijo = r.porgastosfijo,
+                porganancia = r.porganancia,
+                porfeedireccion = r.porfeedireccion,
+                porotrosgastos = r.porotrosgastos,
+                porcostofinanciero = r.porcostofinanciero,
+                porimpuestoycomision = r.porimpuestoycomision,
+                impventa = r.impventa,
+                impcontribucion = r.impcontribucion,
+                porcontribucion = r.porcontribucion,
+                idtipoproy = r.idtipoproy,
+                tipoproy = r.tipoproys.tipoproy,
+                idestado = r.idestado,
+                estado = r.estados.estado,
+                fecingreso = r.fecingreso,
+                fecadjudicacion = r.fecadjudicacion,
+                fecpitch = r.fecpitch,
+                fecrodaje = r.fecrodaje,
+                fecentrega = r.fecentrega,
+                aprobacion = r.aprobacion,
+                fecaprobacion = r.fecaprobacion,
+                idresultado = r.idresultado,
+                resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
+                comentario = r.comentario,
+                visitaforanea = r.visitaforanea,
+                postinhouse = r.postinhouse,
+                idposiciones = r.idposiciones,
+                posiciones = r.posiciones.posicion,
+                editinhouse = r.editinhouse,
+                ars1usd = r.ars1usd,
+                iduseralta = r.iduseralta,
+                fecalta = r.fecalta,
+                iduserumod = r.iduserumod,
+                fecumod = r.fecumod,
+                activo = r.activo
+            });
+        }
+
+        // GET: api/Limbos/ListarActivos
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<LimboViewModel>> ListarActivos()
+        {
+            var Limbo = await _context.Limbos
+                .Include(p => p.lep)
+                .Include(p => p.origenes)
+                .ThenInclude(p => p.territorio)
+                .Include(p => p.agencias)
+                .Include(p => p.pitchs)
+                .Include(p => p.ldirector)
+                .Include(p => p.lcodirector)
+                .Include(p => p.tipoprods)
+                .Include(p => p.tipoproys)
+                .Include(p => p.estados)
+                .Include(p => p.posiciones)
+                .Include(p => p.productoras)
+                .Include(p => p.clientes)
+                .Include(p => p.resultados)
+//                .Where(p => p.resultados.esaprobacion == true || p.idresultado == null)
+                .OrderByDescending(p => p.fecaprobacion)
+                .ToListAsync();
+
+            return Limbo.Select(r => new LimboViewModel
+            {
+                idlimbo = r.idlimbo,
+                orden = r.orden,
+                proyecto = r.proyecto,
+                idep = r.idep,
+                ep = r.lep.nombre,
+                idcliente = r.idcliente,
+                cliente = r.clientes.razonsocial,
+                idorigen = r.idorigen,
+                origen = r.origenes.origen,
+                territorio = r.origenes.territorio.territorio,
+                idagencia = r.idagencia,
+                agencia = r.agencias.agencia,
+                idpitch = r.idpitch,
+                pitch = r.pitchs.pitch,
+                iddirector = r.iddirector,
+                director = r.ldirector.nombre,
+                idcodirector = r.idcodirector,
+                codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
+                idproductora = r.idproductora,
+                productora = r.productoras.productora,
+                idtipoprod = r.idtipoprod,
+                tipoprod = r.tipoprods.tipoprod,
+                impcosto = r.impcosto,
+                porcontingencia = r.porcontingencia,
+                porgastosfijo = r.porgastosfijo,
+                porganancia = r.porganancia,
+                porfeedireccion = r.porfeedireccion,
+                porotrosgastos = r.porotrosgastos,
+                porcostofinanciero = r.porcostofinanciero,
+                porimpuestoycomision = r.porimpuestoycomision,
+                impventa = r.impventa,
+                impcontribucion = r.impcontribucion,
+                porcontribucion = r.porcontribucion,
+                idtipoproy = r.idtipoproy,
+                tipoproy = r.tipoproys.tipoproy,
+                idestado = r.idestado,
+                estado = r.estados.estado,
+                fecingreso = r.fecingreso,
+                fecadjudicacion = r.fecadjudicacion,
+                fecpitch = r.fecpitch,
+                fecrodaje = r.fecrodaje,
+                fecentrega = r.fecentrega,
+                aprobacion = r.aprobacion,
+                fecaprobacion = r.fecaprobacion,
+                idresultado = r.idresultado,
+                resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
+                comentario = r.comentario,
+                visitaforanea = r.visitaforanea,
+                postinhouse = r.postinhouse,
+                idposiciones = r.idposiciones,
+                posiciones = r.posiciones.posicion,
+                editinhouse = r.editinhouse,
+                ars1usd = r.ars1usd,
+                iduseralta = r.iduseralta,
+                fecalta = r.fecalta,
+                iduserumod = r.iduserumod,
+                fecumod = r.fecumod,
+                activo = r.activo
+            });
+        }
+
+        // GET: api/Limbos/ListarActivosusuario/1
+        [HttpGet("[action]/{id}")]
+        public async Task<IEnumerable<LimboViewModel>> ListarActivosusuario([FromRoute] int id)
+        {
+            var Limbo = await _context.Limbos
+                .Include(p => p.lep)
+                .ThenInclude(p => p.usuario)
+                .Where(p => p.lep.usuario.idusuario == id && p.lep.usuario.idpersona == p.lep.idpersona)
+                .Include(p => p.origenes)
+                .ThenInclude(p => p.territorio)
+                .Include(p => p.agencias)
+                .Include(p => p.pitchs)
+                .Include(p => p.ldirector)
+                .Include(p => p.lcodirector)
+                .Include(p => p.tipoprods)
+                .Include(p => p.tipoproys)
+                .Include(p => p.estados)
+                .Include(p => p.posiciones)
+                .Include(p => p.productoras)
+                .Include(p => p.clientes)
+                .Include(p => p.resultados)
+//                .Where(p => p.resultados.esaprobacion == true || p.idresultado == null)
                 .OrderByDescending(p => p.fecaprobacion)
                 .ToListAsync();
 

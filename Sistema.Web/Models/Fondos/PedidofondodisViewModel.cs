@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Sistema.Entidades.Fondos
+namespace Sistema.Web.Models.Fondos
 {
-    public class Sqlpedidosfondo
+    public class PedidofondodisViewModel
     {
         public int idpedidofondo { get; set; }
         public int idproyecto { get; set; }

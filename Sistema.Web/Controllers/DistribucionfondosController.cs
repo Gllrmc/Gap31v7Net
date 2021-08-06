@@ -178,6 +178,109 @@ namespace Sistema.Web.Controllers
             });
         }
 
+        // GET: api/Distribucionfondos/ListarActivosH
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<DistribucionheadViewModel>> ListarActivosH()
+        {
+            var distribucionfondo = await _context.Distribucionfondos
+                .Include(p => p.usuario)
+                .Include(p => p.pedidofondo)
+                .ThenInclude(p => p.proyecto)
+                .Where(p => p.activo == true && p.pedidofondo.activo == true && p.pedidofondo.entregado == true && p.pedidofondo.proyecto.activo == true && p.pedidofondo.proyecto.cierreprod == false && p.pedidofondo.proyecto.cierreadmin == false)
+                .GroupBy(a => new { a.pedidofondo.idproyecto, a.pedidofondo.proyecto.proyecto, a.pedidofondo.proyecto.orden, a.idusuario, a.usuario.userid })
+                .Select(a => new { a.Key.idproyecto, a.Key.proyecto, a.Key.orden, a.Key.idusuario, a.Key.userid, Count = a.Count(), 
+                    Sum = a.Sum(s => s.importe), Ultdist = a.Max(i => i.iddistribucionfondo) })
+                .OrderBy(a => a.orden)
+                .ToListAsync();
+
+            return distribucionfondo.Select(a => new DistribucionheadViewModel
+            {
+                idproyecto = a.idproyecto,
+                proyecto = a.proyecto,
+                orden = a.orden,
+                idusuario = a.idusuario,
+                usuario = a.userid,
+                cantidad = a.Count,
+                importe = a.Sum,
+                idultdistribucion = a.Ultdist
+            });
+        }
+
+        // GET: api/Distribucionfondos/ListarActivosUsuarioH/6
+        [HttpGet("[action]/{id}")]
+        public async Task<IEnumerable<DistribucionheadViewModel>> ListarActivosUsuarioH([FromRoute] int id)
+        {
+            var distribucionfondo = await _context.Distribucionfondos
+                .Include(p => p.usuario)
+                .Include(p => p.pedidofondo)
+                .ThenInclude(p => p.proyecto)
+                .Where(p => p.idusuario == id && p.activo == true && p.pedidofondo.activo == true && p.pedidofondo.entregado == true 
+                && p.pedidofondo.proyecto.activo == true && p.pedidofondo.proyecto.cierreprod == false && p.pedidofondo.proyecto.cierreadmin == false)
+                .GroupBy(a => new { a.pedidofondo.idproyecto, a.pedidofondo.proyecto.proyecto, a.pedidofondo.proyecto.orden, a.idusuario, a.usuario.userid })
+                .Select(a => new {
+                    a.Key.idproyecto,
+                    a.Key.proyecto,
+                    a.Key.orden,
+                    a.Key.idusuario,
+                    a.Key.userid,
+                    Count = a.Count(),
+                    Sum = a.Sum(s => s.importe),
+                    Ultdist = a.Max(i => i.iddistribucionfondo)
+                })
+                .OrderBy(a => a.orden)
+
+                .ToListAsync();
+
+            return distribucionfondo.Select(a => new DistribucionheadViewModel
+            {
+                idproyecto = a.idproyecto,
+                proyecto = a.proyecto,
+                orden = a.orden,
+                idusuario = a.idusuario,
+                usuario = a.userid,
+                cantidad = a.Count,
+                importe = a.Sum,
+                idultdistribucion = a.Ultdist
+            });
+
+        }
+
+        // GET: api/Distribucionfondos/ListarActivosResponsableH/6
+        [HttpGet("[action]/{id}")]
+        public async Task<IEnumerable<DistribucionheadViewModel>> ListarActivosResponsableH([FromRoute] int id)
+        {
+            var distribucionhead = await _context.Sqldistribucionhead
+                .FromSqlRaw($@"
+                    Select p.idproyecto, p.orden, p.proyecto, 
+                           d.idusuario, x.userid, Count(*) as cantidad, sum(d.importe) as importe, max(d.iddistribucionfondo) as ultdist
+                        From usuarioproyectos u
+                        Left Join proyectos p ON p.idproyecto = u.idproyecto
+                        left join pedidosfondo f ON f.idproyecto = p.idproyecto
+	                    inner join distribucionfondos d ON d.idpedidofondo = f.idpedidofondo
+                        left join subrubros s ON s.idsubrubro = f.idsubrubro
+                        left join personas r ON r.idpersona = f.idresponsable
+	                    left join usuario x ON x.idusuario = d.idusuario
+                        Where f.idpedidofondo is not null and f.entregado is not null and f.activo = 1 and u.activo = 1 and u.idusuario = {id}
+	                    Group by p.idproyecto, p.orden, p.proyecto, 
+                           d.idusuario, x.userid 
+                ")
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .ToListAsync();
+
+            return distribucionhead.Select(a => new DistribucionheadViewModel
+            {
+                idproyecto = a.idproyecto,
+                proyecto = a.proyecto,
+                orden = a.orden,
+                idusuario = a.idusuario,
+                usuario = a.userid,
+                cantidad = a.cantidad,
+                importe = a.importe,
+                idultdistribucion = a.ultdist
+            });
+        }
+
         // GET: api/Distribucionfondos/ListarPedidofondo/1
         [HttpGet("[action]/{id}")]
         public async Task<IEnumerable<DistribucionfondoViewModel>> ListarPedidofondo([FromRoute] int id)

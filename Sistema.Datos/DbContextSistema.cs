@@ -67,6 +67,7 @@ namespace Sistema.Datos
         public DbSet<Sqlordenpago> Sqlordenpagos { get; set; }
         public DbSet<Sqlpedidosfondo> Sqlpedidofondo { get; set; }
         public DbSet<Sqldistribucionfondo> Sqldistribucionfondo { get; set; }
+        public DbSet<Sqldistribucionhead> Sqldistribucionhead { get; set; }
         public DbSet<Alternativapago> Alternativapagos { get; set; }
         public DbSet<Recursodxd> Recursodxds { get; set; }
         public DbSet<Realdxd> Realdxds { get; set; }
@@ -136,6 +137,7 @@ namespace Sistema.Datos
             modelBuilder.ApplyConfiguration(new SqlordenpagoMap());
             modelBuilder.ApplyConfiguration(new SqlpedidofondoMap());
             modelBuilder.ApplyConfiguration(new SqldistribucionfondoMap());
+            modelBuilder.ApplyConfiguration(new SqldistribucionheadMap());
             modelBuilder.ApplyConfiguration(new AlternativapagoMap());
             modelBuilder.ApplyConfiguration(new RecursodxdMap());
             modelBuilder.ApplyConfiguration(new RealdxdMap());

@@ -37,7 +37,8 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.item)
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
-                .Where(p => p.distribucionfondo.activo == true && p.distribucionfondo.pedidofondo.activo == true && p.distribucionfondo.pedidofondo.proyecto.activo == true)
+                .Where(p => p.distribucionfondo.activo == true && p.distribucionfondo.pedidofondo.activo == true && 
+                p.distribucionfondo.pedidofondo.proyecto.activo == true)
                 .OrderBy(p => p.idrendicionfondo)
                 .AsNoTracking()
                 .ToListAsync();
@@ -184,7 +185,6 @@ namespace Sistema.Web.Controllers
                 fecumod = a.fecumod,
                 activo = a.activo
             });
-
         }
 
         // GET: api/Rendicionfondos/ListarRendicionProy/2
@@ -200,7 +200,65 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.item)
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
-                .Where(p => p.distribucionfondo.pedidofondo.idproyecto == id && p.distribucionfondo.pedidofondo.entregado == true && p.distribucionfondo.rendido == false)
+                .Where(p => p.distribucionfondo.pedidofondo.idproyecto == id && p.distribucionfondo.pedidofondo.entregado == true && 
+                p.distribucionfondo.rendido == false)
+                .OrderBy(p => p.idrendicionfondo)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return rendicionfondo.Select(a => new RendicionfondoViewModel
+            {
+                idrendicionfondo = a.idrendicionfondo,
+                idproyecto = a.distribucionfondo.pedidofondo.proyecto.idproyecto,
+                proyecto = a.distribucionfondo.pedidofondo.proyecto.proyecto,
+                idpedidofondo = a.distribucionfondo.pedidofondo.idpedidofondo,
+                iddistribucionfondo = a.iddistribucionfondo,
+                fecdistribucion = a.distribucionfondo.fecdistribucion,
+                idresponsable = a.distribucionfondo.usuario.idusuario,
+                responsable = a.distribucionfondo.usuario.userid,
+                importedistribucion = a.distribucionfondo.importe,
+                iditem = a.iditem,
+                itemorden = a.item.orden,
+                itemes = a.item.itemes,
+                itemen = a.item.itemen,
+                idsubitem = a.idsubitem,
+                subitemorden = a.idsubitem.HasValue ? a.subitem.orden : "",
+                subitemes = a.idsubitem.HasValue ? a.subitem.subitemes : "",
+                subitemen = a.idsubitem.HasValue ? a.subitem.subitemen : "",
+                idproveedor = a.idproveedor,
+                proveedor = a.idproveedor.HasValue ? a.proveedor.razonsocial : "",
+                tipocomprobante = a.tipocomprobante,
+                numcomprobante = a.numcomprobante,
+                feccomprobante = a.feccomprobante,
+                indiceinterno = a.indiceinterno,
+                impsiniva = a.impsiniva,
+                imptotal = a.imptotal,
+                notas = a.notas,
+                pdfcomprobante = a.pdfcomprobante,
+                iduseralta = a.iduseralta,
+                fecalta = a.fecalta,
+                iduserumod = a.iduserumod,
+                fecumod = a.fecumod,
+                activo = a.activo
+            });
+
+        }
+
+        // GET: api/Rendicionfondos/ListarRendicionProyRes/1142/3018
+        [HttpGet("[action]/{id}/{re}")]
+        public async Task<IEnumerable<RendicionfondoViewModel>> ListarRendicionProyRes([FromRoute] int id, int re)
+        {
+            var rendicionfondo = await _context.Rendicionfondos
+                .Include(p => p.distribucionfondo)
+                .ThenInclude(p => p.pedidofondo)
+                .ThenInclude(p => p.proyecto)
+                .Include(p => p.distribucionfondo)
+                .ThenInclude(p => p.usuario)
+                .Include(p => p.item)
+                .Include(p => p.subitem)
+                .Include(p => p.proveedor)
+                .Where(p => p.distribucionfondo.pedidofondo.idproyecto == id && p.distribucionfondo.idusuario == re && 
+                p.distribucionfondo.pedidofondo.entregado == true && p.distribucionfondo.rendido == false)
                 .OrderBy(p => p.idrendicionfondo)
                 .AsNoTracking()
                 .ToListAsync();
@@ -309,7 +367,8 @@ GROUP BY p.idproyecto, p.orden, proyecto, numpedido, nombre, rubro, u.idsubrubro
                 .Include(p => p.item)
                 .Include(p => p.subitem)
                 .Include(p => p.proveedor)
-                .Where(p => p.activo == true && p.distribucionfondo.activo == true && p.distribucionfondo.pedidofondo.activo == true && p.distribucionfondo.pedidofondo.proyecto.activo == true)
+                .Where(p => p.activo == true && p.distribucionfondo.activo == true && p.distribucionfondo.pedidofondo.activo == true && 
+                p.distribucionfondo.pedidofondo.proyecto.activo == true)
                 .OrderBy(p => p.idrendicionfondo)
                 .SingleOrDefaultAsync(a => a.idrendicionfondo == id);
 

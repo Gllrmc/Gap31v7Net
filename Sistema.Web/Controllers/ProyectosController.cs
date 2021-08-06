@@ -70,6 +70,7 @@ namespace Sistema.Web.Controllers
                 tipoprod = a.proyecto.tipoprod.tipoprod,
                 idempresa = a.proyecto.idempresa,
                 empresa = a.proyecto.idempresa.HasValue ? a.proyecto.empresas.empresa : "",
+                idorigen = a.proyecto.idorigen,
                 origen = a.proyecto.origenes.origen,
                 idterritorio = a.proyecto.origenes.idterritorio,
                 territorio = a.proyecto.origenes.territorio.territorio,

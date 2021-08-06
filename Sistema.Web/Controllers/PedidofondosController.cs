@@ -100,62 +100,30 @@ namespace Sistema.Web.Controllers
 
         // GET: api/Pedidofondos/ListarActivos
         [HttpGet("[action]")]
-        public async Task<IEnumerable<PedidofondoViewModel>> ListarActivos()
-        {
-            var pedidofondo = await _context.Pedidosfondo
-                .Include(p => p.proyecto)
-                .Where(p => p.entregado == true && p.activo == true && p.proyecto.activo == true && p.proyecto.cierreprod == false && p.proyecto.cierreadmin == false)
-                .Include(p => p.responsable)
-                .Include(p => p.subrubro)
-                .OrderBy(p => p.idpedidofondo)
-                .AsNoTracking()
-                .ToListAsync();
-
-            return pedidofondo.Select(a => new PedidofondoViewModel
-            {
-                idpedidofondo = a.idpedidofondo,
-                idproyecto = a.idproyecto,
-                orden = a.proyecto.orden,
-                proyecto = a.proyecto.proyecto,
-                idsubrubro = a.subrubro.idsubrubro,
-                subrubro = String.Concat(a.subrubro.orden, '-', a.subrubro.subrubroes),
-                idresponsable = a.idresponsable,
-                responsable = a.responsable.nombre,
-                numpedido = a.numpedido,
-                fecpedido = a.fecpedido,
-                importe = a.importe,
-                notas = a.notas,
-                entregado = a.entregado,
-                rendido = a.rendido,
-                iduseralta = a.iduseralta,
-                fecalta = a.fecalta,
-                iduserumod = a.iduserumod,
-                fecumod = a.fecumod,
-                activo = a.activo
-            });
-        }
-
-        // GET: api/Pedidofondos/Listaractivosusuario/2
-        [HttpGet("[action]/{id}")]
-        public async Task<IEnumerable<PedidofondoViewModel>> Listaractivosusuario([FromRoute] int id)
+        public async Task<IEnumerable<PedidofondodisViewModel>> ListarActivos()
         {
             var pedidofondo = await _context.Sqlpedidofondo
                 .FromSqlRaw($@"
                     Select f.idpedidofondo, p.idproyecto, p.orden, p.proyecto, s.idsubrubro, s.subrubro,
-                        r.idpersona idresponsable, r.nombre responsable, f.numpedido, f.fecpedido, f.importe, f.notas, f.entregado, f.rendido, 
+                        r.idpersona idresponsable, r.nombre responsable, f.numpedido, f.fecpedido, f.importe, 
+						SUM(ISNULL(d.importe,0)) as impdist, IIF(f.entregado=1,f.importe,0) - SUM(ISNULL(d.importe,0)) as imppend, f.notas, f.entregado, f.rendido, 
                         f.iduseralta, f.fecalta, f.iduserumod, f.fecumod, f.activo
                     From usuarioproyectos u
                     Left Join proyectos p ON p.idproyecto = u.idproyecto
                     left join pedidosfondo f ON f.idproyecto = p.idproyecto
                     left join subrubros s ON s.idsubrubro = f.idsubrubro
                     left join personas r ON r.idpersona = f.idresponsable
-                    Where idpedidofondo is not null and f.entregado is not null and f.activo = 1 and u.activo = 1 and u.idusuario = {id}
+					left join distribucionfondos d ON d.idpedidofondo = f.idpedidofondo and d.idusuario = u.idusuario
+                    Where f.idpedidofondo is not null and f.entregado = 1 and f.activo = 1 and u.activo = 1
+					Group by f.idpedidofondo, p.idproyecto, p.orden, p.proyecto, s.idsubrubro, s.subrubro,
+                        r.idpersona, r.nombre, f.numpedido, f.fecpedido, f.importe, f.notas, f.entregado, f.rendido, 
+                        f.iduseralta, f.fecalta, f.iduserumod, f.fecumod, f.activo
                 ")
                 .IgnoreQueryFilters()
                 .AsNoTracking()
                 .ToListAsync();
 
-            return pedidofondo.Select(a => new PedidofondoViewModel
+            return pedidofondo.Select(a => new PedidofondodisViewModel
             {
                 idpedidofondo = a.idpedidofondo,
                 idproyecto = a.idproyecto,
@@ -168,6 +136,60 @@ namespace Sistema.Web.Controllers
                 numpedido = a.numpedido,
                 fecpedido = a.fecpedido,
                 importe = a.importe,
+                impdist = a.impdist,
+                imppend = a.importe - a.impdist,
+                notas = a.notas,
+                entregado = a.entregado,
+                rendido = a.rendido,
+                iduseralta = a.iduseralta,
+                fecalta = a.fecalta,
+                iduserumod = a.iduserumod,
+                fecumod = a.fecumod,
+                activo = a.activo
+            });
+        }
+
+
+        // GET: api/Pedidofondos/Listaractivosusuario/3018
+        [HttpGet("[action]/{id}")]
+        public async Task<IEnumerable<PedidofondodisViewModel>> Listaractivosusuario([FromRoute] int id)
+        {
+            var pedidofondo = await _context.Sqlpedidofondo
+                .FromSqlRaw($@"
+                    Select f.idpedidofondo, p.idproyecto, p.orden, p.proyecto, s.idsubrubro, s.subrubro,
+                        r.idpersona idresponsable, r.nombre responsable, f.numpedido, f.fecpedido, f.importe, 
+						SUM(ISNULL(d.importe,0)) as impdist, IIF(f.entregado=1,f.importe,0) - SUM(ISNULL(d.importe,0)) as imppend, f.notas, f.entregado, f.rendido, 
+                        f.iduseralta, f.fecalta, f.iduserumod, f.fecumod, f.activo
+                    From usuarioproyectos u
+                    Left Join proyectos p ON p.idproyecto = u.idproyecto
+                    left join pedidosfondo f ON f.idproyecto = p.idproyecto
+                    left join subrubros s ON s.idsubrubro = f.idsubrubro
+                    left join personas r ON r.idpersona = f.idresponsable
+					left join distribucionfondos d ON d.idpedidofondo = f.idpedidofondo and d.idusuario = u.idusuario
+                    Where f.idpedidofondo is not null and f.entregado = 1 and f.activo = 1 and u.activo = 1 and u.idusuario = {id}
+					Group by f.idpedidofondo, p.idproyecto, p.orden, p.proyecto, s.idsubrubro, s.subrubro,
+                        r.idpersona, r.nombre, f.numpedido, f.fecpedido, f.importe, f.notas, f.entregado, f.rendido, 
+                        f.iduseralta, f.fecalta, f.iduserumod, f.fecumod, f.activo
+                ")
+                .IgnoreQueryFilters()
+                .AsNoTracking()
+                .ToListAsync();
+
+            return pedidofondo.Select(a => new PedidofondodisViewModel
+            {
+                idpedidofondo = a.idpedidofondo,
+                idproyecto = a.idproyecto,
+                orden = a.orden,
+                proyecto = a.proyecto,
+                idsubrubro = a.idsubrubro,
+                subrubro = a.subrubro,
+                idresponsable = a.idresponsable,
+                responsable = a.responsable,
+                numpedido = a.numpedido,
+                fecpedido = a.fecpedido,
+                importe = a.importe,
+                impdist = a.impdist,
+                imppend = a.importe - a.impdist,
                 notas = a.notas,
                 entregado = a.entregado,
                 rendido = a.rendido,
