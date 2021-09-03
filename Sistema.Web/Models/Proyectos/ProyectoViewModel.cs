@@ -20,11 +20,11 @@ namespace Sistema.Web.Models.Proyectos
         public string origen { get; set; }
         public int idterritorio { get; set; }
         public string territorio { get; set; }
-        public int idagencia { get; set; }
+        public int? idagencia { get; set; }
         public string agencia { get; set; }
-        public int idproductora { get; set; }
+        public int? idproductora { get; set; }
         public string productora { get; set; }
-        public int idcliente { get; set; }
+        public int? idcliente { get; set; }
         public string cliente { get; set; }
         public int iddirector { get; set; }
         public string director { get; set; }

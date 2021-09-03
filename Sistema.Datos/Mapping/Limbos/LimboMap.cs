@@ -15,9 +15,6 @@ namespace Sistema.Datos.Mapping.Limbos
                 .HasKey(a => a.idlimbo);
             builder.HasIndex(a => new { a.orden })
                 .IsUnique(true);
-            builder.HasOne(a => a.clientes)
-                .WithMany(d => d.limbos)
-                .HasForeignKey(a => a.idcliente);
             builder.HasOne(a => a.lep)
                 .WithMany(d => d.eplimbos)
                 .HasForeignKey(a => a.idep);
@@ -27,15 +24,9 @@ namespace Sistema.Datos.Mapping.Limbos
             builder.HasOne(a => a.lcodirector)
                 .WithMany(d => d.codirectorlimbos)
                 .HasForeignKey(a => a.idcodirector);
-            builder.HasOne(a => a.productoras)
-                .WithMany(d => d.limbos)
-                .HasForeignKey(a => a.idproductora);
             builder.HasOne(a => a.origenes)
                 .WithMany(d => d.limbos)
                 .HasForeignKey(a => a.idorigen);
-            builder.HasOne(a => a.agencias)
-                .WithMany(d => d.limbos)
-                .HasForeignKey(a => a.idagencia);
             builder.HasOne(a => a.pitchs)
                 .WithMany(d => d.limbos)
                 .HasForeignKey(a => a.idpitch);
@@ -51,9 +42,6 @@ namespace Sistema.Datos.Mapping.Limbos
             builder.HasOne(a => a.resultados)
                 .WithMany(d => d.limbos)
                 .HasForeignKey(a => a.idresultado);
-            builder.HasOne(a => a.posiciones)
-                .WithMany(d => d.limbos)
-                .HasForeignKey(a => a.idposiciones);
         }
     }
 }

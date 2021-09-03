@@ -18,6 +18,5 @@ namespace Sistema.Entidades.Maestros
         public ICollection<Empresa> empresas { get; set; }
         public ICollection<Persona> personas { get; set; }
         public ICollection<Cliente> clientes { get; set; }
-        public ICollection<Proveedor> proveedores { get; set; }
     }
 }

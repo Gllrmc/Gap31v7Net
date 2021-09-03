@@ -17,7 +17,6 @@ namespace Sistema.Entidades.Maestros
         public bool activo { get; set; }
 
         public ICollection<Proyecto> proyectos { get; set; }
-        public ICollection<Limbo> limbos { get; set; }
 
     }
 }

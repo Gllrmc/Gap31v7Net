@@ -16,20 +16,14 @@ namespace Sistema.Web.Models.Limbos
         [Required]
         public string proyecto { get; set; }
         [Required]
-        public int idcliente { get; set; }
-        [Required]
         public int idep { get; set; }
         [Required]
         public int idorigen { get; set; }
-        [Required]
-        public int idagencia { get; set; }
         [Required]
         public int idpitch { get; set; }
         [Required]
         public int iddirector { get; set; }
         public int? idcodirector { get; set; }
-        [Required]
-        public int idproductora { get; set; }
         [Required]
         public int idtipoprod { get; set; }
         [Required]
@@ -63,21 +57,10 @@ namespace Sistema.Web.Models.Limbos
         [Required]
         public DateTime fecingreso { get; set; }
         public DateTime? fecadjudicacion { get; set; }
-        public DateTime? fecpitch { get; set; }
-        public DateTime? fecrodaje { get; set; }
-        public DateTime? fecentrega { get; set; }
         public bool aprobacion { get; set; }
         public DateTime? fecaprobacion { get; set; }
         public int? idresultado { get; set; }
         public string comentario { get; set; }
-        [Required]
-        public bool visitaforanea { get; set; }
-        [Required]
-        public bool postinhouse { get; set; }
-        [Required]
-        public int idposiciones { get; set; }
-        [Required]
-        public bool editinhouse { get; set; }
         public decimal? ars1usd { get; set; }
         [Required]
         public int iduserumod { get; set; }

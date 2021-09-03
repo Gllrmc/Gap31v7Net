@@ -23,6 +23,5 @@ namespace Sistema.Entidades.Maestros
         public DateTime fecumod { get; set; }
         [Required]
         public bool activo { get; set; }
-        public ICollection<Limbo> limbos { get; set; }
     }
 }

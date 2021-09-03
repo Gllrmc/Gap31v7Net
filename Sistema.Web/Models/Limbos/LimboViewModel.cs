@@ -12,24 +12,18 @@ namespace Sistema.Web.Models.Limbos
         public int idlimbo { get; set; }
         public int orden { get; set; }
         public string proyecto { get; set; }
-        public int idcliente { get; set; }
-        public string cliente { get; set; }
         public int idep { get; set; }
         public string ep { get; set; }
         public int idorigen { get; set; }
         public string origen { get; set; }
         public int idterritorio { get; set; }
         public string territorio { get; set; }
-        public int idagencia { get; set; }
-        public string agencia { get; set; }
         public int idpitch { get; set; }
         public string pitch { get; set; }
         public int iddirector { get; set; }
         public string director { get; set; }
         public int? idcodirector { get; set; }
         public string codirector { get; set; }
-        public int idproductora { get; set; }
-        public string productora { get; set; }
         public int idtipoprod { get; set; }
         public string tipoprod { get; set; }
         [Column(TypeName = "decimal(18, 2)")]
@@ -61,23 +55,12 @@ namespace Sistema.Web.Models.Limbos
         public DateTime fecingreso { get; set; }
         [DataType(DataType.Date)]
         public DateTime? fecadjudicacion { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? fecpitch { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? fecrodaje { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? fecentrega { get; set; }
         [Required]
         public bool aprobacion { get; set; }
         public DateTime? fecaprobacion { get; set; }
         public int? idresultado { get; set; }
         public string resultado { get; set; }
         public string comentario { get; set; }
-        public bool visitaforanea { get; set; }
-        public bool postinhouse { get; set; }
-        public int idposiciones { get; set; }
-        public string posiciones { get; set; }
-        public bool editinhouse { get; set; }
         public decimal? ars1usd { get; set; }
         public int iduseralta { get; set; }
         public DateTime fecalta { get; set; }

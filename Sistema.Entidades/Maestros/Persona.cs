@@ -37,12 +37,11 @@ namespace Sistema.Entidades.Maestros
         public bool escliente { get; set; }
         public bool esdirector { get; set; }
         public bool activo { get; set; }
-
         public Pais paises { get; set; }
         public Provincia provincias { get; set; }
         public Usuario usuario { get; set; }
         public ICollection<Cliente> clientes { get; set; }
-        public ICollection<Proveedor> proveedores { get; set; }
+        public ICollection<Proveedor> proveedor { get; set; }
         [InverseProperty("director")]
         public ICollection<Proyecto> directorproyectos { get; set; }
         [InverseProperty("codirector")]

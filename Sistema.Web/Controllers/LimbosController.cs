@@ -12,7 +12,7 @@ using Sistema.Web.Models.Limbos;
 
 namespace Sistema.Web.Controllers
 {
-    //[Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
+    [Authorize(Roles = "Administrador,JefeAdministracion,AsistAdministracion,ExecutiveProducer,AsistProduccion,LineProducer,ChiefProducer,AsistGeneral")]
     [Route("api/[controller]")]
     [ApiController]
     public class LimbosController : ControllerBase
@@ -32,16 +32,12 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.lep)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Where(p => p.idresultado == null)
                 .OrderByDescending(p => p.orden)
                 .ToListAsync();
@@ -53,21 +49,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -87,19 +77,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -119,16 +101,12 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.lep.usuario.idusuario == id && p.lep.usuario.idpersona == p.lep.idpersona)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Where(p => p.idresultado == null)
                 .OrderByDescending(p => p.orden)
                 .ToListAsync();
@@ -140,21 +118,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -174,19 +146,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -204,16 +168,12 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.lep)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Include(p => p.resultados)
                 .Where(p => p.resultados.esaprobacion == true)
                 .OrderByDescending(p => p.fecaprobacion)
@@ -226,21 +186,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -260,19 +214,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -292,16 +238,12 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.lep.usuario.idusuario == id && p.lep.usuario.idpersona == p.lep.idpersona)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Include(p => p.resultados)
                 .Where(p => p.resultados.esaprobacion == true)
                 .OrderByDescending(p => p.fecaprobacion)
@@ -314,21 +256,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -348,19 +284,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -378,16 +306,12 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.lep)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Include(p => p.resultados)
 //                .Where(p => p.resultados.esaprobacion == true || p.idresultado == null)
                 .OrderByDescending(p => p.fecaprobacion)
@@ -400,21 +324,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -434,19 +352,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -466,16 +376,12 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.lep.usuario.idusuario == id && p.lep.usuario.idpersona == p.lep.idpersona)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Include(p => p.resultados)
 //                .Where(p => p.resultados.esaprobacion == true || p.idresultado == null)
                 .OrderByDescending(p => p.fecaprobacion)
@@ -488,21 +394,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -522,19 +422,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -552,16 +444,12 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.lep)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Include(p => p.resultados)
                 .Where(p => p.idresultado != null)
                 .ToListAsync();
@@ -573,21 +461,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -607,19 +489,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -639,16 +513,12 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.lep.usuario.idusuario == id && p.lep.usuario.idpersona == p.lep.idpersona)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.posiciones)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .Include(p => p.resultados)
                 .Where(p => p.idresultado != null)
                 .ToListAsync();
@@ -660,21 +530,15 @@ namespace Sistema.Web.Controllers
                 proyecto = r.proyecto,
                 idep = r.idep,
                 ep = r.lep.nombre,
-                idcliente = r.idcliente,
-                cliente = r.clientes.razonsocial,
                 idorigen = r.idorigen,
                 origen = r.origenes.origen,
                 territorio = r.origenes.territorio.territorio,
-                idagencia = r.idagencia,
-                agencia = r.agencias.agencia,
                 idpitch = r.idpitch,
                 pitch = r.pitchs.pitch,
                 iddirector = r.iddirector,
                 director = r.ldirector.nombre,
                 idcodirector = r.idcodirector,
                 codirector = r.idcodirector.HasValue ? r.lcodirector.nombre : "",
-                idproductora = r.idproductora,
-                productora = r.productoras.productora,
                 idtipoprod = r.idtipoprod,
                 tipoprod = r.tipoprods.tipoprod,
                 impcosto = r.impcosto,
@@ -694,19 +558,11 @@ namespace Sistema.Web.Controllers
                 estado = r.estados.estado,
                 fecingreso = r.fecingreso,
                 fecadjudicacion = r.fecadjudicacion,
-                fecpitch = r.fecpitch,
-                fecrodaje = r.fecrodaje,
-                fecentrega = r.fecentrega,
                 aprobacion = r.aprobacion,
                 fecaprobacion = r.fecaprobacion,
                 idresultado = r.idresultado,
                 resultado = r.idresultado.HasValue ? r.resultados.resultado : "",
                 comentario = r.comentario,
-                visitaforanea = r.visitaforanea,
-                postinhouse = r.postinhouse,
-                idposiciones = r.idposiciones,
-                posiciones = r.posiciones.posicion,
-                editinhouse = r.editinhouse,
                 ars1usd = r.ars1usd,
                 iduseralta = r.iduseralta,
                 fecalta = r.fecalta,
@@ -742,15 +598,12 @@ namespace Sistema.Web.Controllers
                 .Include(p => p.lep)
                 .Include(p => p.origenes)
                 .ThenInclude(p => p.territorio)
-                .Include(p => p.agencias)
                 .Include(p => p.pitchs)
                 .Include(p => p.ldirector)
                 .Include(p => p.lcodirector)
                 .Include(p => p.tipoprods)
                 .Include(p => p.tipoproys)
                 .Include(p => p.estados)
-                .Include(p => p.productoras)
-                .Include(p => p.clientes)
                 .OrderBy(p => p.idlimbo)
                 .Take(100)
                 .SingleOrDefaultAsync(a => a.idlimbo == id);
@@ -765,23 +618,17 @@ namespace Sistema.Web.Controllers
                 idlimbo = limbo.idlimbo,
                 orden = limbo.orden,
                 proyecto = limbo.proyecto,
-                idcliente = limbo.idcliente,
-                cliente = limbo.clientes.razonsocial,
                 idep = limbo.idep,
                 ep = limbo.lep.nombre,
                 idorigen = limbo.idorigen,
                 origen = limbo.origenes.origen,
                 territorio = limbo.origenes.territorio.territorio,
-                idagencia = limbo.idagencia,
-                agencia = limbo.agencias.agencia,
                 idpitch = limbo.idpitch,
                 pitch = limbo.pitchs.pitch,
                 iddirector = limbo.iddirector,
                 director = limbo.ldirector.nombre,
                 idcodirector = limbo.idcodirector,
                 codirector = limbo.lcodirector.nombre,
-                idproductora = limbo.idproductora,
-                productora = limbo.productoras.productora,
                 idtipoprod = limbo.idtipoprod,
                 tipoprod = limbo.tipoprods.tipoprod,
                 impcosto = limbo.impcosto,
@@ -801,19 +648,11 @@ namespace Sistema.Web.Controllers
                 estado = limbo.estados.estado,
                 fecingreso = limbo.fecingreso,
                 fecadjudicacion = limbo.fecadjudicacion,
-                fecpitch = limbo.fecpitch,
-                fecrodaje = limbo.fecrodaje,
-                fecentrega = limbo.fecentrega,
                 aprobacion = limbo.aprobacion,
                 fecaprobacion = limbo.fecaprobacion,
                 idresultado = limbo.idresultado,
                 resultado = limbo.resultados.resultado,
                 comentario = limbo.comentario,
-                visitaforanea = limbo.visitaforanea,
-                postinhouse = limbo.postinhouse,
-                idposiciones = limbo.idposiciones,
-                posiciones = limbo.posiciones.posicion,
-                editinhouse = limbo.editinhouse,
                 ars1usd = limbo.ars1usd,
                 iduseralta = limbo.iduseralta,
                 fecalta = limbo.fecalta,
@@ -847,14 +686,11 @@ namespace Sistema.Web.Controllers
 
             limbo.orden = model.orden;
             limbo.proyecto = model.proyecto;
-            limbo.idcliente = model.idcliente;
             limbo.idep = model.idep;
             limbo.idorigen = model.idorigen;
-            limbo.idagencia = model.idagencia;
             limbo.idpitch = model.idpitch;
             limbo.iddirector = model.iddirector;
             limbo.idcodirector = model.idcodirector;
-            limbo.idproductora = model.idproductora;
             limbo.idtipoprod = model.idtipoprod;
             limbo.impcosto = model.impcosto;
             limbo.porcontingencia = model.porcontingencia;
@@ -865,23 +701,16 @@ namespace Sistema.Web.Controllers
             limbo.porcostofinanciero = model.porcostofinanciero;
             limbo.porimpuestoycomision = model.porimpuestoycomision;
             limbo.impventa = model.impcosto * (1 + model.porcontingencia / 100 ) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100 ) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100 ) * (1 + model.porimpuestoycomision / 100);
-            limbo.impcontribucion = model.impcosto * (1 + model.porcontingencia / 100 ) * (1 + model.porgastosfijo / 100 + model.porganancia / 100 ) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100) * (model.porganancia / 100 + model.porgastosfijo / 100) * (1 + model.porcontingencia / 100) * model.impcosto / (model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100));
-            limbo.porcontribucion = model.impcosto != 0 ? (model.porganancia / 100 + model.porgastosfijo / 100) * (1 + model.porcontingencia / 100 ) * model.impcosto / (model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100 ) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100)) * 100 : 0;
+            limbo.impcontribucion = model.impcosto != 0 ? model.impcosto * (1 + model.porcontingencia / 100 ) * (1 + model.porgastosfijo / 100 + model.porganancia / 100 ) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100) * (model.porganancia / 100 + model.porgastosfijo / 100) * (1 + model.porcontingencia / 100) * model.impcosto / (model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100)) : 0;
+            limbo.porcontribucion = model.impcosto != 0 ? ((model.porganancia / 100 + model.porgastosfijo / 100) * (1 + model.porcontingencia / 100 ) * model.impcosto / (model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100 ) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100)) * 100 ) : 0;
             limbo.idtipoproy = model.idtipoproy;
             limbo.idestado = model.idestado;
             limbo.fecingreso = model.fecingreso;
             limbo.fecadjudicacion = model.fecadjudicacion;
-            limbo.fecpitch = model.fecpitch;
-            limbo.fecrodaje = model.fecrodaje;
-            limbo.fecentrega = model.fecentrega;
             limbo.aprobacion = model.aprobacion;
             limbo.fecaprobacion = model.fecaprobacion;
             limbo.idresultado = model.idresultado;
             limbo.comentario = model.comentario;
-            limbo.visitaforanea = model.visitaforanea;
-            limbo.postinhouse = model.postinhouse;
-            limbo.idposiciones = model.idposiciones;
-            limbo.editinhouse = model.editinhouse;
             limbo.ars1usd = model.ars1usd;
             limbo.iduserumod = model.iduserumod;
             limbo.fecumod = fechaHora;
@@ -920,14 +749,11 @@ namespace Sistema.Web.Controllers
             {
                 orden = numorden + 1,
                 proyecto = model.proyecto,
-                idcliente = model.idcliente,
                 idep = model.idep,
                 idorigen = model.idorigen,
-                idagencia = model.idagencia,
                 idpitch = model.idpitch,
                 iddirector = model.iddirector,
                 idcodirector = model.idcodirector,
-                idproductora = model.idproductora,
                 idtipoprod = model.idtipoprod,
                 impcosto = model.impcosto,
                 porcontingencia = model.porcontingencia,
@@ -938,23 +764,16 @@ namespace Sistema.Web.Controllers
                 porcostofinanciero = model.porcostofinanciero,
                 porimpuestoycomision = model.porimpuestoycomision,
                 impventa = model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100),
-                impcontribucion = model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100) * (model.porganancia / 100 + model.porgastosfijo / 100) * (1 + model.porcontingencia / 100) * model.impcosto / (model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100)),
+                impcontribucion = model.impcosto != 0 ? model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100) * (model.porganancia / 100 + model.porgastosfijo / 100) * (1 + model.porcontingencia / 100) * model.impcosto / (model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100)) : 0,
                 porcontribucion = model.impcosto != 0 ? (model.porganancia / 100 + model.porgastosfijo / 100) * (1 + model.porcontingencia / 100) * model.impcosto / (model.impcosto * (1 + model.porcontingencia / 100) * (1 + model.porgastosfijo / 100 + model.porganancia / 100) * (1 + model.porfeedireccion / 100) * (1 + model.porotrosgastos / 100) * (1 + model.porcostofinanciero / 100) * (1 + model.porimpuestoycomision / 100)) * 100 : 0,
                 idtipoproy = model.idtipoproy,
                 idestado = model.idestado,
                 fecingreso = model.fecingreso,
                 fecadjudicacion = model.fecadjudicacion,
-                fecpitch = model.fecpitch,
-                fecrodaje = model.fecrodaje,
-                fecentrega = model.fecentrega,
                 aprobacion = model.aprobacion,
                 fecaprobacion = model.fecaprobacion,
                 idresultado = model.idresultado,
                 comentario = model.comentario,
-                visitaforanea = model.visitaforanea,
-                postinhouse = model.postinhouse,
-                idposiciones = model.idposiciones,
-                editinhouse = model.editinhouse,
                 ars1usd = model.ars1usd,
                 iduseralta = model.iduseralta,
                 fecalta = fechaHora,

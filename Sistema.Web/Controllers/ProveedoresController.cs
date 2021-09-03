@@ -28,7 +28,7 @@ namespace Sistema.Web.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<ProveedorViewModel>> Listar()
         {
-            var proveedor = await _context.Proveedores.Include(a => a.paises).Include(a => a.provincias).Include(a => a.persona).ToListAsync();
+            var proveedor = await _context.Proveedores.Include(a => a.persona).ToListAsync();
 
             return proveedor.Select(a => new ProveedorViewModel
             {
@@ -37,21 +37,11 @@ namespace Sistema.Web.Controllers
                 razonsocial = a.razonsocial,
                 cuit = a.cuit,
                 situacioniva = a.situacioniva,
-                situacioniibb = a.situacioniibb,
-                jurisdiccion = a.jurisdiccion,
                 email = a.email,
                 telefono = a.telefono,
-                direccion = a.direccion,
-                localidad = a.localidad,
-                cpostal = a.cpostal,
-                idprovincia = a.idprovincia,
-                provincia = a.provincias.provincia,
-                idpais = a.idpais,
-                pais = a.paises.pais,
                 persona = a.idpersona.HasValue?a.persona.nombre:"",
                 emailpersonal = a.idpersona.HasValue?a.persona.emailpersonal:"",
                 telefonopersonal = a.idpersona.HasValue?a.persona.telefonopersonal:"",
-                formadepago = a.formadepago,
                 generico = a.generico,
                 tipocomprobantegenerico = a.tipocomprobantegenerico,
                 iduseralta = a.iduseralta,
@@ -110,8 +100,6 @@ namespace Sistema.Web.Controllers
         {
 
             var proveedor = await _context.Proveedores
-                .Include(a => a.paises)
-                .Include(a => a.provincias)
                 .Include(a => a.persona)
                 .SingleOrDefaultAsync(a => a.idproveedor == id);
 
@@ -127,16 +115,8 @@ namespace Sistema.Web.Controllers
                 razonsocial = proveedor.razonsocial,
                 cuit = proveedor.cuit,
                 situacioniva = proveedor.situacioniva,
-                situacioniibb = proveedor.situacioniibb,
-                jurisdiccion = proveedor.jurisdiccion,
                 email = proveedor.email,
                 telefono = proveedor.telefono,
-                direccion = proveedor.direccion,
-                localidad = proveedor.localidad,
-                cpostal = proveedor.cpostal,
-                idprovincia = proveedor.idprovincia,
-                idpais = proveedor.idpais,
-                formadepago = proveedor.formadepago,
                 generico = proveedor.generico,
                 tipocomprobantegenerico = proveedor.tipocomprobantegenerico,
                 activo = proveedor.activo
@@ -169,16 +149,8 @@ namespace Sistema.Web.Controllers
             proveedor.razonsocial = model.razonsocial;
             proveedor.cuit = model.cuit;
             proveedor.situacioniva = model.situacioniva;
-            proveedor.situacioniibb = model.situacioniibb;
-            proveedor.jurisdiccion = model.jurisdiccion;
             proveedor.email = model.email;
             proveedor.telefono = model.telefono;
-            proveedor.direccion = model.direccion;
-            proveedor.localidad = model.localidad;
-            proveedor.cpostal = model.cpostal;
-            proveedor.idprovincia = model.idprovincia;
-            proveedor.idpais = model.idpais;
-            proveedor.formadepago = model.formadepago;
             proveedor.generico = model.generico;
             proveedor.tipocomprobantegenerico = model.tipocomprobantegenerico;
             proveedor.iduseralta = model.iduseralta;
@@ -215,16 +187,8 @@ namespace Sistema.Web.Controllers
                 razonsocial = model.razonsocial,
                 cuit = model.cuit,
                 situacioniva = model.situacioniva,
-                situacioniibb = model.situacioniibb,
-                jurisdiccion = model.jurisdiccion,
                 email = model.email,
                 telefono = model.telefono,
-                direccion = model.direccion,
-                localidad = model.localidad,
-                cpostal = model.cpostal,
-                idprovincia = model.idprovincia,
-                idpais = model.idpais,
-                formadepago = model.formadepago,
                 generico = model.generico,
                 tipocomprobantegenerico = model.tipocomprobantegenerico,
                 iduseralta = model.iduseralta,

@@ -11,6 +11,9 @@ namespace Sistema.Datos.Mapping.Maestros
         {
             builder.ToTable("Proveedores")
                 .HasKey(c => c.idproveedor);
+            builder.HasOne(a => a.persona)
+                .WithMany(d => d.proveedor)
+                .HasForeignKey(a => a.idpersona);
         }
     }
 }

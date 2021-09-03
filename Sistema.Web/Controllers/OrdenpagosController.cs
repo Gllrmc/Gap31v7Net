@@ -150,6 +150,70 @@ namespace Sistema.Web.Controllers
             });
         }
 
+        // GET: api/Ordenpagos/ListarPagados
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<OrdenpagoViewModel>> ListarPagados()
+        {
+            var ordenpago = await _context.Ordenpagos
+                .Include(p => p.proyecto)
+                .Include(p => p.item)
+                .Include(p => p.subitem)
+                .Include(p => p.proveedor)
+                .Include(p => p.alternativapago)
+                .Include(p => p.forpago)
+                .Where(p => p.proyecto.activo == true && p.activo == true && p.pagado == true)
+                .OrderByDescending (p => p.fecpago)
+                .Take(200)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return ordenpago.Select(a => new OrdenpagoViewModel
+            {
+                idordenpago = a.idordenpago,
+                idproyecto = a.idproyecto,
+                proyectoorden = a.proyecto.orden,
+                proyecto = a.proyecto.proyecto,
+                iditem = a.iditem,
+                itemorden = a.item.orden,
+                itemes = a.item.itemes,
+                idsubitem = a.idsubitem,
+                subitemorden = a.idsubitem.HasValue ? a.subitem.orden : "",
+                subitemes = a.idsubitem.HasValue ? a.subitem.subitemes : "",
+                idproveedor = a.idproveedor,
+                proveedor = a.proveedor.razonsocial,
+                telefono = a.proveedor.telefono,
+                email = a.proveedor.email,
+                idalternativapago = a.idalternativapago,
+                alternativapago = a.alternativapago.beneficiario,
+                banco = a.alternativapago.banco,
+                numcuenta = a.alternativapago.numcuenta,
+                cbu = a.alternativapago.cbu,
+                alias = a.alternativapago.alias,
+                feccomprobante = a.feccomprobante,
+                tipocomprobante = a.tipocomprobante,
+                numcomprobante = a.numcomprobante,
+                impsiniva = a.impsiniva,
+                imptotal = a.imptotal,
+                fecpago = a.fecpago,
+                idforpago = a.idforpago,
+                forpago = a.forpago.forpago,
+                pdfcomprobantefac = a.pdfcomprobantefac,
+                pagado = a.pagado,
+                fecpagado = a.fecpagado,
+                pdfcomprobantepago = a.pdfcomprobantepago,
+                pdfcertificado1 = a.pdfcertificado1,
+                pdfcertificado2 = a.pdfcertificado2,
+                pdfcertificado3 = a.pdfcertificado3,
+                pdfcertificado4 = a.pdfcertificado4,
+                notas = a.notas,
+                iduseralta = a.iduseralta,
+                fecalta = a.fecalta,
+                iduserumod = a.iduserumod,
+                fecumod = a.fecumod,
+                activo = a.activo
+            });
+        }
+
         // GET: api/Ordenpagos/ListarPendientesUsuario/7
         [HttpGet("[action]/{id}")]
         public async Task<IEnumerable<OrdenpagoViewModel>> ListarPendientesUsuario([FromRoute] int id)

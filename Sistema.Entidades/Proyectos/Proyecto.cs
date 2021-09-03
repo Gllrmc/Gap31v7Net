@@ -23,34 +23,30 @@ namespace Sistema.Entidades.Proyectos
         [Required]
         public string orden { get; set; }
         public string proyecto { get; set; }
-        [Required]
         [ForeignKey("origenes")]
+        [Required]
         public int idorigen { get; set; }
         [ForeignKey("empresas")]
         public int? idempresa { get; set; }
-        [Required]
         [ForeignKey("tipoprod")]
+        [Required]
         public int idtipoprod { get; set; }
-        [Required]
         [ForeignKey("agencias")]
-        public int idagencia { get; set; }
-        [Required]
+        public int? idagencia { get; set; }
         [ForeignKey("productoras")]
-        public int idproductora { get; set; }
-        [Required]
+        public int? idproductora { get; set; }
         [ForeignKey("cliente")]
-        public int idcliente { get; set; }
-        [Required]
+        public int? idcliente { get; set; }
         public Cliente cliente { get; set; }
-        [Required]
         [ForeignKey("director")]
+        [Required]
         public int iddirector { get; set; }
         public Persona director { get; set; }
         [ForeignKey("codirector")]
         public int? idcodirector { get; set; }
         public Persona codirector { get; set; }
-        [Required]
         [ForeignKey("ep")]
+        [Required]
         public int idep { get; set; }
         public Persona ep { get; set; }
         [ForeignKey("lp")]

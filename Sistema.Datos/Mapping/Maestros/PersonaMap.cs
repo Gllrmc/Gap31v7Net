@@ -14,7 +14,6 @@ namespace Sistema.Datos.Mapping.Maestros
             builder.HasOne(a => a.usuario)
                 .WithOne(d => d.persona)
                 .HasForeignKey<Usuario>(a => a.idpersona);
-
         }
     }
 }

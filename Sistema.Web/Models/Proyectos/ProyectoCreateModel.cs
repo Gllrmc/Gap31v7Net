@@ -18,12 +18,9 @@ namespace Sistema.Web.Models.Proyectos
         public int? idempresa { get; set; }
         [Required]
         public int idorigen { get; set; }
-        [Required]
-        public int idagencia { get; set; }
-        [Required]
-        public int idproductora { get; set; }
-        [Required]
-        public int idcliente { get; set; }
+        public int? idagencia { get; set; }
+        public int? idproductora { get; set; }
+        public int? idcliente { get; set; }
         [Required]
         public int iddirector { get; set; }
         public int? idcodirector { get; set; }
