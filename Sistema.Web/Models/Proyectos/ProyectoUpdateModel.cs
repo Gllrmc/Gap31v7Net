@@ -18,7 +18,7 @@ namespace Sistema.Web.Models.Proyectos
         [Required]
         public int idtipoprod { get; set; }
         [Required]
-        public int idempresa { get; set; }
+        public int? idempresa { get; set; }
         [Required]
         public int idorigen { get; set; }
         [Required]
@@ -56,6 +56,5 @@ namespace Sistema.Web.Models.Proyectos
         public bool cierreadmin { get; set; }
         public DateTime? feccierreadmin { get; set; }
         public int iduserumod { get; set; }
-        public DateTime fecumod { get; set; }
     }
 }

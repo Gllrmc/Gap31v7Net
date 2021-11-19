@@ -79,7 +79,7 @@ namespace Sistema.Web.Controllers
                 idproductora = a.proyecto.idproductora,
                 productora = a.proyecto.idproductora.HasValue ? a.proyecto.productoras.productora : "",
                 idcliente = a.proyecto.idcliente,
-                cliente = a.proyecto.cliente.razonsocial,
+                cliente = a.proyecto.idcliente.HasValue ? a.proyecto.cliente.razonsocial : "",
                 iddirector = a.proyecto.iddirector,
                 director = a.proyecto.director.nombre,
                 idcodirector = a.proyecto.idcodirector,
