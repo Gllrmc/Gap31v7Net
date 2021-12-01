@@ -13,20 +13,14 @@ namespace Sistema.Web.Models.Proyectos
         [Required]
         public string orden { get; set; }
         [Required]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "El proyecto no puede ser mayor a {1} ni menor a {2} caracteres")]
         public string proyecto { get; set; }
         [Required]
         public int idtipoprod { get; set; }
-        [Required]
         public int? idempresa { get; set; }
-        [Required]
         public int idorigen { get; set; }
-        [Required]
-        public int idagencia { get; set; }
-        [Required]
-        public int idproductora { get; set; }
-        [Required]
-        public int idcliente { get; set; }
+        public int? idagencia { get; set; }
+        public int? idproductora { get; set; }
+        public int? idcliente { get; set; }
         [Required]
         public int iddirector { get; set; }
         public int? idcodirector { get; set; }
