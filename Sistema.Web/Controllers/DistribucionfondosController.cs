@@ -189,7 +189,7 @@ namespace Sistema.Web.Controllers
                 .Where(p => p.activo == true && p.pedidofondo.activo == true && p.pedidofondo.entregado == true && p.pedidofondo.proyecto.activo == true && p.pedidofondo.proyecto.cierreprod == false && p.pedidofondo.proyecto.cierreadmin == false)
                 .GroupBy(a => new { a.pedidofondo.idproyecto, a.pedidofondo.proyecto.proyecto, a.pedidofondo.proyecto.orden, a.idusuario, a.usuario.userid })
                 .Select(a => new { a.Key.idproyecto, a.Key.proyecto, a.Key.orden, a.Key.idusuario, a.Key.userid, Count = a.Count(), 
-                    Sum = a.Sum(s => s.importe), Ultdist = a.Max(i => i.iddistribucionfondo) })
+                    Sum = a.Sum(s => s.devolucion ? 0 : s.importe), Ultdist = a.Max(i => i.iddistribucionfondo) })
                 .OrderBy(a => a.orden)
                 .ToListAsync();
 
@@ -224,7 +224,7 @@ namespace Sistema.Web.Controllers
                     a.Key.idusuario,
                     a.Key.userid,
                     Count = a.Count(),
-                    Sum = a.Sum(s => s.importe),
+                    Sum = a.Sum(s => s.devolucion?0:s.importe),
                     Ultdist = a.Max(i => i.iddistribucionfondo)
                 })
                 .OrderBy(a => a.orden)
@@ -252,7 +252,7 @@ namespace Sistema.Web.Controllers
             var distribucionhead = await _context.Sqldistribucionhead
                 .FromSqlRaw($@"
                     Select p.idproyecto, p.orden, p.proyecto, 
-                           d.idusuario, x.userid, Count(*) as cantidad, sum(d.importe) as importe, max(d.iddistribucionfondo) as ultdist
+                           d.idusuario, x.userid, Count(*) as cantidad, sum(IIF(d.devolucion=1,0,d.importe)) as importe, max(d.iddistribucionfondo) as ultdist
                         From usuarioproyectos u
                         Left Join proyectos p ON p.idproyecto = u.idproyecto
                         left join pedidosfondo f ON f.idproyecto = p.idproyecto

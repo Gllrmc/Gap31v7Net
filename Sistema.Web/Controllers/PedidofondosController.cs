@@ -106,7 +106,7 @@ namespace Sistema.Web.Controllers
                 .FromSqlRaw($@"
                     Select f.idpedidofondo, p.idproyecto, p.orden, p.proyecto, s.idsubrubro, s.subrubro,
                         r.idpersona idresponsable, r.nombre responsable, f.numpedido, f.fecpedido, f.importe, 
-						SUM(ISNULL(d.importe,0)) as impdist, IIF(f.entregado=1,f.importe,0) - SUM(ISNULL(d.importe,0)) as imppend, f.notas, f.entregado, f.rendido, 
+						SUM(ISNULL(IIF(d.devolucion=1,0,d.importe),0)) as impdist, IIF(f.entregado=1,f.importe,0) - SUM(ISNULL(IIF(d.devolucion=1,0,d.importe),0)) as imppend, f.notas, f.entregado, f.rendido, 
                         f.iduseralta, f.fecalta, f.iduserumod, f.fecumod, f.activo
                     From usuarioproyectos u
                     Left Join proyectos p ON p.idproyecto = u.idproyecto
